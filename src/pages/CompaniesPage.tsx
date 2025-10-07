@@ -1,172 +1,444 @@
-import React, { useState } from 'react';
-import { Search, Plus, Edit2, Trash2, Eye, MapPin, Phone, Mail, Globe } from 'lucide-react';
-import type { Company } from '../types';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Search, Filter, ExternalLink } from 'lucide-react';
+import { useCompanies } from '../hooks/useCompanies';
+import { useDebounce } from '../hooks/useDebounce';
+import HorizontalScrollTable from '../components/HorizontalScrollTable';
+import { refreshDashboardWithDelay } from '../utils/dashboardUtils';
 
 const CompaniesPage: React.FC = () => {
-  // Mock data
-  const [companies] = useState<Company[]>([
-    {
-      id: '1',
-      tenDN: 'Công ty TNHH ABC Technology',
-      nguoiLienHe: 'Nguyễn Văn Manager',
-      email: 'manager@abc-tech.com',
-      sdt: '0901234567',
-      diaChi: '123 Đường ABC, Quận 1, TP.HCM',
-      moTa: 'Công ty chuyên về phát triển phần mềm và ứng dụng di động',
-      website: 'https://abc-tech.com',
-      tinTuyenDung: []
-    },
-    {
-      id: '2',
-      tenDN: 'Startup XYZ Innovation',
-      nguoiLienHe: 'Trần Thị Director',
-      email: 'director@xyz-innovation.com',
-      sdt: '0907654321',
-      diaChi: '456 Đường XYZ, Quận 3, TP.HCM',
-      moTa: 'Startup chuyên về AI và Machine Learning',
-      website: 'https://xyz-innovation.com',
-      tinTuyenDung: []
-    },
-    {
-      id: '3', 
-      tenDN: 'DEF Software Solutions',
-      nguoiLienHe: 'Lê Văn CEO',
-      email: 'ceo@def-software.com',
-      sdt: '0909876543',
-      diaChi: '789 Đường DEF, Quận 7, TP.HCM',
-      moTa: 'Công ty giải pháp phần mềm doanh nghiệp',
-      website: 'https://def-software.com',
-      tinTuyenDung: []
-    }
-  ]);
-
   const [searchTerm, setSearchTerm] = useState('');
+  const [allCompanies, setAllCompanies] = useState<any[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const pageSize = 50; // Tăng số lượng để tải nhiều hơn mỗi lần
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const [sortBy, setSortBy] = useState<'none' | 'name' | 'size'>('none');
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
+  
 
-  const filteredCompanies = companies.filter(company =>
-    company.tenDN.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    company.nguoiLienHe.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    company.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Debounce search term với delay 500ms
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  const { companies, pagination, loading, error, refetch } = useCompanies({
+    page: currentPage,
+    limit: pageSize,
+    search: debouncedSearchTerm
+  });
+
+  // Reset khi search term thay đổi
+  useEffect(() => {
+    if (debouncedSearchTerm !== searchTerm) return;
+    
+    setAllCompanies([]);
+    setCurrentPage(1);
+    setHasMore(true);
+  }, [debouncedSearchTerm]);
+
+  // Append new companies khi load thêm data
+  useEffect(() => {
+    if (companies && companies.length > 0) {
+      if (currentPage === 1) {
+        setAllCompanies(companies);
+      } else {
+        setAllCompanies(prev => [...prev, ...companies]);
+        setIsLoadingMore(false);
+      }
+      
+      setHasMore(pagination ? currentPage < pagination.totalPages : false);
+    }
+  }, [companies, currentPage, pagination]);
+
+  const getSortedCompanies = () => {
+    let arr = [...allCompanies];
+    const nameKey = (c: any) => (c.tenCongTy || c.tenDN || c.ten_cong_ty || '').toString().toLowerCase();
+    const sizeKey = (c: any) => {
+      const size = c.quyMoNhanSu || c.quy_mo_nhan_su || '';
+      const m = size.toString().match(/(\d+)/);
+      return m ? parseInt(m[1], 10) : 0;
+    };
+
+    // Sắp xếp thông thường
+    if (sortBy === 'name') {
+      arr.sort((a,b) => sortDir === 'asc' ? nameKey(a).localeCompare(nameKey(b)) : nameKey(b).localeCompare(nameKey(a)));
+    } else if (sortBy === 'size') {
+      arr.sort((a,b) => sortDir === 'asc' ? sizeKey(a) - sizeKey(b) : sizeKey(b) - sizeKey(a));
+    }
+
+    return arr;
+  };
+
+  const sortedCompanies = getSortedCompanies();
+
+  // Infinite scroll observer
+  const lastCompanyElementRef = useCallback((node: HTMLTableRowElement) => {
+    if (loading || isLoadingMore) return;
+    if (observerRef.current) observerRef.current.disconnect();
+    
+    observerRef.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore && !loading) {
+        setIsLoadingMore(true);
+        setCurrentPage(prevPage => prevPage + 1);
+      }
+    });
+    
+    if (node) observerRef.current.observe(node);
+  }, [loading, isLoadingMore, hasMore]);
+
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+  };
+
+  // Handle import Excel
+  const handleImportExcel = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('excelFile', file);
+
+    try {
+      const resp = await fetch('http://localhost:3001/api/doanh-nghiep/import', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+        body: formData
+      });
+      
+      const data = await resp.json();
+      if (data.success) {
+        alert(`Import thành công!\n${data.message}\nTổng: ${data.data.totalStudents} sinh viên từ ${data.data.totalCompanies} doanh nghiệp`);
+        // Refresh dashboard after successful import
+        refreshDashboardWithDelay();
+        refetch(); // Refresh data
+      } else {
+        alert('Lỗi import: ' + data.message);
+      }
+    } catch (error) {
+      alert('Lỗi import: ' + (error as Error).message);
+    }
+    
+    // Reset input
+    event.target.value = '';
+  };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">Quản lý Doanh nghiệp</h1>
-        <div className="mt-4 sm:mt-0">
-          <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-            <Plus className="w-4 h-4 mr-2" />
-            Thêm doanh nghiệp
-          </button>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-pink-100">
+      {/* Modern Header */}
+      <div className="relative overflow-hidden bg-gradient-to-r from-purple-900 via-pink-900 to-indigo-900">
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-pink-400/20 to-indigo-400/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
         </div>
-      </div>
-
-      {/* Search */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="h-5 w-5 text-gray-400" />
-          </div>
-          <input
-            type="text"
-            placeholder="Tìm kiếm theo tên doanh nghiệp, người liên hệ, email..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
-        </div>
-      </div>
-
-      {/* Companies Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredCompanies.map((company) => (
-          <div key={company.id} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-            {/* Company Header */}
-            <div className="mb-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">{company.tenDN}</h3>
-              <p className="text-gray-600 text-sm line-clamp-2">{company.moTa}</p>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between">
+            <div>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+                Quản lý Doanh nghiệp
+              </h1>
+              <p className="text-xl text-purple-100 mb-6 lg:mb-0">
+                Quản lý danh sách các doanh nghiệp tham gia thực tập
+              </p>
             </div>
-
-            {/* Contact Info */}
-            <div className="space-y-2 mb-4">
-              <div className="flex items-center text-sm text-gray-600">
-                <Mail className="w-4 h-4 mr-2 flex-shrink-0" />
-                <span className="truncate">{company.email}</span>
-              </div>
-              <div className="flex items-center text-sm text-gray-600">
-                <Phone className="w-4 h-4 mr-2 flex-shrink-0" />
-                <span>{company.sdt}</span>
-              </div>
-              <div className="flex items-start text-sm text-gray-600">
-                <MapPin className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
-                <span className="line-clamp-2">{company.diaChi}</span>
-              </div>
-              {company.website && (
-                <div className="flex items-center text-sm text-blue-600">
-                  <Globe className="w-4 h-4 mr-2 flex-shrink-0" />
-                  <a 
-                    href={company.website} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="truncate hover:underline"
-                  >
-                    {company.website}
-                  </a>
-                </div>
-              )}
-            </div>
-
-            {/* Contact Person */}
-            <div className="border-t border-gray-200 pt-4 mb-4">
-              <p className="text-sm text-gray-600">Người liên hệ:</p>
-              <p className="font-medium text-gray-900">{company.nguoiLienHe}</p>
-            </div>
-
-            {/* Actions */}
-            <div className="flex justify-between items-center">
-              <div className="flex space-x-2">
-                <button className="text-blue-600 hover:text-blue-800 p-1">
-                  <Eye className="w-4 h-4" />
-                </button>
-                <button className="text-green-600 hover:text-green-800 p-1">
-                  <Edit2 className="w-4 h-4" />
-                </button>
-                <button className="text-red-600 hover:text-red-800 p-1">
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-              <button className="text-sm text-blue-600 hover:text-blue-800 font-medium">
-                Xem chi tiết
+            
+            <div className="flex flex-wrap items-center gap-4">
+              {/* Hidden file input */}
+              <input
+                type="file"
+                id="excelFileInput"
+                style={{ display: 'none' }}
+                accept=".xlsx,.xls"
+                onChange={handleImportExcel}
+              />
+              
+              <button
+                className="inline-flex items-center px-6 py-3 bg-purple-600 text-white rounded-2xl hover:bg-purple-700 transition-all duration-300 shadow-lg"
+                onClick={() => document.getElementById('excelFileInput')?.click()}
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+                Import Excel
+              </button>
+              
+              <button
+                className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white rounded-2xl hover:bg-emerald-700 transition-all duration-300 shadow-lg"
+                onClick={async () => {
+                  try {
+                    const resp = await fetch('http://localhost:3001/api/doanh-nghiep/sync', {
+                      method: 'POST',
+                      headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+                    });
+                    const data = await resp.json();
+                    if (data.success) {
+                      alert(`Đồng bộ thành công: ${data.data.created} doanh nghiệp mới`);
+                      refetch(); // Refresh data
+                    } else {
+                      alert('Lỗi đồng bộ: ' + data.message);
+                    }
+                  } catch (e) {
+                    alert('Lỗi đồng bộ: ' + (e as Error).message);
+                  }
+                }}
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                Đồng bộ từ SV
+              </button>
+              
+              <button
+                className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 transition-all duration-300 shadow-lg"
+                onClick={async () => {
+                  try {
+                    const resp = await fetch('http://localhost:3001/api/doanh-nghiep/export', {
+                      headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+                    });
+                    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                    const blob = await resp.blob();
+                    const downloadUrl = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = downloadUrl;
+                    a.download = `doanh-nghiep-${new Date().toISOString().split('T')[0]}.xlsx`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(downloadUrl);
+                  } catch (e) {
+                    alert('Lỗi xuất Excel: ' + (e as Error).message);
+                  }
+                }}
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+                </svg>
+                Xuất Excel
               </button>
             </div>
           </div>
-        ))}
+        </div>
       </div>
 
-      {filteredCompanies.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-gray-500">Không tìm thấy doanh nghiệp nào.</p>
+      {/* Modern Search and Controls */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 p-8 mb-8">
+          <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
+            {/* Modern Search Section */}
+            <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center flex-1">
+              <div className="relative flex-1">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Search className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm theo tên doanh nghiệp, người liên hệ, email, lĩnh vực, địa chỉ..."
+                  maxLength={250}
+                  value={searchTerm}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  className="block w-full pl-12 pr-4 py-4 text-base border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent shadow-sm hover:border-gray-300 transition-colors"
+                />
+              </div>
+              
+              {/* Modern Sort Controls */}
+              <div className="flex flex-wrap gap-3 items-center">
+                <button className="inline-flex items-center px-4 py-3 border-2 border-purple-200 text-purple-700 rounded-2xl hover:bg-purple-50 transition-all duration-300 shadow-sm">
+                  <Filter className="w-4 h-4 mr-2" />
+                  Lọc
+                </button>
+                
+                <select
+                  value={sortBy === 'none' ? 'none' : `${sortBy}-${sortDir}`}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val === 'none') {
+                      setSortBy('none');
+                      setSortDir('asc');
+                    } else {
+                      const [type, dir] = val.split('-');
+                      setSortBy(type as 'name' | 'size');
+                      setSortDir(dir as 'asc' | 'desc');
+                    }
+                  }}
+                  className="px-4 py-3 text-sm border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent shadow-sm hover:border-gray-300 transition-colors min-w-48"
+                >
+                  <option value="none">Không sắp xếp</option>
+                  <option value="name-asc">Tên A → Z</option>
+                  <option value="name-desc">Tên Z → A</option>
+                  <option value="size-asc">Quy mô nhỏ → lớn</option>
+                  <option value="size-desc">Quy mô lớn → nhỏ</option>
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
 
-      {/* Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="text-2xl font-bold text-gray-900">{companies.length}</div>
-          <div className="text-sm text-gray-600">Tổng doanh nghiệp</div>
+        {/* Modern Table Container */}
+        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 overflow-hidden">
+          <HorizontalScrollTable tableMinWidth="2320px" maxHeight="70vh">
+        <thead className="bg-gray-50 sticky top-0 z-10">
+          <tr>
+            <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200" style={{ width: '50px' }}>
+              STT
+            </th>
+            <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200" style={{ width: '200px' }}>
+              Tên doanh nghiệp
+            </th>
+            <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200" style={{ width: '150px' }}>
+              Người liên hệ
+            </th>
+            <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200" style={{ width: '180px' }}>
+              Email
+            </th>
+            <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200" style={{ width: '100px' }}>
+              Số ĐT
+            </th>
+            <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200" style={{ width: '220px' }}>
+              Địa chỉ
+            </th>
+            <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200" style={{ width: '150px' }}>
+              Lĩnh vực
+                </th>
+                <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200" style={{ width: '120px' }}>
+                  Chức vụ LH
+                </th>
+                <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200" style={{ width: '80px' }}>
+                  Quy mô
+                </th>
+                <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200" style={{ width: '160px' }}>
+                  Website
+                </th>
+                <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200" style={{ width: '150px' }}>
+                  Mô tả
+                </th>
+                <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200" style={{ width: '120px' }}>
+                  SL SV thực tập
+                </th>
+                {/* Thao tác column removed per request */}
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {!loading && allCompanies.length === 0 && !debouncedSearchTerm && (
+                <tr>
+                  <td colSpan={12} className="px-6 py-8 text-center text-gray-500 text-sm">
+                    Không có dữ liệu doanh nghiệp
+                  </td>
+                </tr>
+              )}
+              
+              {!loading && allCompanies.length === 0 && debouncedSearchTerm && (
+                <tr>
+                  <td colSpan={12} className="px-6 py-8 text-center text-gray-500 text-sm">
+                    Không tìm thấy doanh nghiệp nào với từ khóa "{debouncedSearchTerm}"
+                  </td>
+                </tr>
+              )}
+              
+              {sortedCompanies.map((company: any, index: number) => (
+                <tr 
+                  key={`${company.id}-${index}`} 
+                  className="hover:bg-gray-50 border-b border-gray-100"
+                  ref={index === sortedCompanies.length - 1 ? lastCompanyElementRef : null}
+                >
+                  <td className="px-1 py-1 whitespace-nowrap text-xs text-gray-900 border-r border-gray-200 text-center">
+                    {index + 1}
+                  </td>
+                  <td className="px-1 py-1 text-xs font-medium text-gray-900 border-r border-gray-200">
+                    <div className="truncate" title={company.tenCongTy || company.tenDN || company.ten_cong_ty}>
+                      {company.tenCongTy || company.tenDN || company.ten_cong_ty || '-'}
+                    </div>
+                  </td>
+                  <td className="px-1 py-1 whitespace-nowrap text-xs text-gray-600 border-r border-gray-200">
+                    <div className="truncate" title={company.tenNguoiLienHe || company.nguoiLienHe || company.ten_nguoi_lien_he}>
+                      {company.tenNguoiLienHe || company.nguoiLienHe || company.ten_nguoi_lien_he || '-'}
+                    </div>
+                  </td>
+                  <td className="px-1 py-1 text-xs text-gray-600 border-r border-gray-200">
+                    <div className="truncate" title={company.emailCongTy || company.email || company.email_cong_ty}>
+                      {company.emailCongTy || company.email || company.email_cong_ty || '-'}
+                    </div>
+                  </td>
+                  <td className="px-1 py-1 whitespace-nowrap text-xs text-gray-600 border-r border-gray-200">
+                    {company.soDienThoai || company.sdt || company.so_dien_thoai || '-'}
+                  </td>
+                  <td className="px-1 py-1 text-xs text-gray-600 border-r border-gray-200">
+                    <div className="truncate" title={company.diaChiCongTy || company.diaChi || company.dia_chi_cong_ty}>
+                      {company.diaChiCongTy || company.diaChi || company.dia_chi_cong_ty || '-'}
+                    </div>
+                  </td>
+                  <td className="px-1 py-1 text-xs text-gray-600 border-r border-gray-200">
+                    <div className="truncate" title={company.linhVucHoatDong || company.linh_vuc_hoat_dong}>
+                      {company.linhVucHoatDong || company.linh_vuc_hoat_dong || '-'}
+                    </div>
+                  </td>
+                  <td className="px-1 py-1 text-xs text-gray-600 border-r border-gray-200">
+                    <div className="truncate" title={company.chucVuNguoiLienHe || company.chuc_vu_nguoi_lien_he}>
+                      {company.chucVuNguoiLienHe || company.chuc_vu_nguoi_lien_he || '-'}
+                    </div>
+                  </td>
+                  <td className="px-1 py-1 whitespace-nowrap text-xs text-gray-600 border-r border-gray-200">
+                    <div className="truncate">
+                      {company.quyMoNhanSu || company.quy_mo_nhan_su ? `${company.quyMoNhanSu || company.quy_mo_nhan_su}` : '-'}
+                    </div>
+                  </td>
+                  <td className="px-1 py-1 text-xs text-gray-600 border-r border-gray-200">
+                    {company.website ? (
+                      <a
+                        href={company.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center text-blue-600 hover:text-blue-900 truncate"
+                        title={company.website}
+                      >
+                        <span className="truncate max-w-24">{company.website}</span>
+                        <ExternalLink className="w-2 h-2 ml-1 flex-shrink-0" />
+                      </a>
+                    ) : (
+                      '-'
+                    )}
+                  </td>
+                  <td className="px-1 py-1 text-xs text-gray-600 border-r border-gray-200">
+                    <div className="truncate" title={company.moTaCongTy || company.moTa || company.mo_ta_cong_ty}>
+                      {company.moTaCongTy || company.moTa || company.mo_ta_cong_ty || '-'}
+                    </div>
+                  </td>
+                  <td className="px-1 py-1 whitespace-nowrap text-xs text-gray-900 border-r border-gray-200 text-center">
+                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      {company.soSinhVienThucTap || 0}
+                    </span>
+                  </td>
+                  {/* Action column removed per request */}
+                </tr>
+              ))}
+              
+              {/* Loading indicator */}
+              {(loading || isLoadingMore) && (
+                <tr>
+                  <td colSpan={12} className="px-6 py-4 text-center">
+                    <div className="flex justify-center items-center">
+                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                      <span className="ml-2 text-sm text-gray-600">
+                        {loading ? 'Đang tải...' : 'Đang tải thêm...'}
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </HorizontalScrollTable>
         </div>
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="text-2xl font-bold text-green-600">
-            {companies.filter(c => c.tinTuyenDung.length > 0).length}
+
+        {/* Error State */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700">
+            <p>Có lỗi xảy ra: {error}</p>
+            <button 
+              onClick={refetch}
+              className="mt-2 text-sm bg-red-100 hover:bg-red-200 px-3 py-1 rounded"
+            >
+              Thử lại
+            </button>
           </div>
-          <div className="text-sm text-gray-600">Có tin tuyển dụng</div>
-        </div>
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="text-2xl font-bold text-blue-600">
-            {companies.reduce((total, c) => total + c.tinTuyenDung.length, 0)}
-          </div>
-          <div className="text-sm text-gray-600">Tổng tin tuyển dụng</div>
-        </div>
+        )}
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, FileCheck, MessageSquare, Calendar, BookOpen, Award } from 'lucide-react';
+import { Users, FileCheck, MessageSquare, Calendar, BookOpen } from 'lucide-react';
 
 const TeacherDashboard: React.FC = () => {
   // Mock teacher data
@@ -47,12 +47,7 @@ const TeacherDashboard: React.FC = () => {
     { id: 2, sinhVien: 'Trần Thị C', ngay: '2025-10-02', gio: '10:00', diaDiem: 'Online' },
   ];
 
-  const stats = [
-    { title: 'Sinh viên hướng dẫn', value: guidedStudents.length, icon: Users, color: 'bg-blue-500' },
-    { title: 'Báo cáo chờ duyệt', value: pendingReports.length, icon: FileCheck, color: 'bg-orange-500' },
-    { title: 'Cuộc họp tuần này', value: 2, icon: Calendar, color: 'bg-green-500' },
-    { title: 'Điểm trung bình', value: '8.2', icon: Award, color: 'bg-purple-500' }
-  ];
+  // Statistics cards removed per request
 
   const getProgressColor = (progress: number) => {
     if (progress >= 75) return 'bg-green-500';
@@ -72,25 +67,7 @@ const TeacherDashboard: React.FC = () => {
         <p className="text-green-100">Mã giảng viên: {teacherInfo.maGV} | Chuyên môn: {teacherInfo.chuyenMon}</p>
       </div>
 
-      {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => {
-          const Icon = stat.icon;
-          return (
-            <div key={index} className="bg-white rounded-lg shadow-md p-6">
-              <div className="flex items-center">
-                <div className={`${stat.color} rounded-lg p-3 mr-4`}>
-                  <Icon className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-                  <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      {/* Statistics Cards removed */}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Guided Students */}

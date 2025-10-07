@@ -24,22 +24,12 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
   if (allowedRoles.length > 0 && user && !allowedRoles.includes(user.role)) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">
-            Không có quyền truy cập
-          </h1>
-          <p className="text-gray-600">
-            Bạn không có quyền truy cập vào trang này.
-          </p>
-        </div>
-      </div>
-    );
+    // Redirect to home page if user doesn't have required role
+    return <Navigate to="/" replace />;
   }
 
   return <>{children}</>;

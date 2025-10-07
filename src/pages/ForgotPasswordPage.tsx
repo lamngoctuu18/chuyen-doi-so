@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Mail, ArrowLeft, CheckCircle } from 'lucide-react';
 
 const ForgotPasswordPage: React.FC = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -32,18 +33,26 @@ const ForgotPasswordPage: React.FC = () => {
             <div className="mx-auto w-16 h-16 bg-green-600 rounded-xl flex items-center justify-center mb-6">
               <CheckCircle className="w-8 h-8 text-white" />
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Email đã được gửi!</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">Khôi phục mật khẩu</h2>
             <p className="text-gray-600 mb-8">
-              Chúng tôi đã gửi hướng dẫn khôi phục mật khẩu đến email của bạn.
-              Vui lòng kiểm tra hộp thư đến và làm theo hướng dẫn.
+              Bạn có thể sử dụng tính năng đặt lại mật khẩu mới với mã xác minh qua email 
+              để bảo mật hơn.
             </p>
-            <Link
-              to="/login"
-              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Quay lại đăng nhập
-            </Link>
+            <div className="space-y-4">
+              <button
+                onClick={() => navigate('/reset-password')}
+                className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Đặt lại mật khẩu với mã xác minh
+              </button>
+              <Link
+                to="/login"
+                className="inline-flex items-center justify-center w-full px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Quay lại đăng nhập
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -60,7 +69,7 @@ const ForgotPasswordPage: React.FC = () => {
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2">Quên mật khẩu?</h2>
           <p className="text-gray-600">
-            Nhập email của bạn và chúng tôi sẽ gửi hướng dẫn khôi phục mật khẩu
+            Chọn phương thức khôi phục mật khẩu phù hợp với bạn
           </p>
         </div>
 
@@ -97,18 +106,31 @@ const ForgotPasswordPage: React.FC = () => {
             </div>
 
             {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              {isLoading ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-              ) : (
-                <Mail className="w-5 h-5 mr-2" />
-              )}
-              {isLoading ? 'Đang gửi...' : 'Gửi hướng dẫn khôi phục'}
-            </button>
+            <div className="space-y-3">
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                {isLoading ? (
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                ) : (
+                  <Mail className="w-5 h-5 mr-2" />
+                )}
+                {isLoading ? 'Đang gửi...' : 'Gửi hướng dẫn khôi phục'}
+              </button>
+              
+              <div className="text-center text-sm text-gray-500">hoặc</div>
+              
+              <button
+                type="button"
+                onClick={() => navigate('/reset-password')}
+                className="w-full flex justify-center items-center py-3 px-4 border border-blue-600 text-sm font-medium rounded-lg text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+              >
+                <CheckCircle className="w-5 h-5 mr-2" />
+                Đặt lại với mã xác minh (Khuyến nghị)
+              </button>
+            </div>
           </form>
 
           {/* Back to login */}
