@@ -26,11 +26,11 @@ import {
 
 const TeacherGuidePage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 py-8">
+    <div className="min-h-screen bg-white py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
-        {/* Header */}
-        <div className="relative bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 rounded-3xl shadow-2xl overflow-hidden">
+        {/* Header - Màu Đại Nam */}
+        <div className="relative rounded-3xl shadow-2xl overflow-hidden" style={{background: 'linear-gradient(135deg, #213f99 0%, #1a3280 50%, #f37320 100%)'}}>
           <div className="absolute inset-0">
             <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -translate-y-48 translate-x-48 animate-pulse"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full translate-y-32 -translate-x-32 animate-pulse"></div>
@@ -721,10 +721,10 @@ const TeacherGuidePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Contact CTA */}
-        <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 rounded-3xl shadow-2xl p-8 text-white text-center">
+        {/* Contact CTA - Màu Đại Nam */}
+        <div className="rounded-3xl shadow-2xl p-8 text-white text-center" style={{background: 'linear-gradient(135deg, #213f99 0%, #f37320 100%)'}}>
           <h2 className="text-2xl font-bold mb-4">Cần hỗ trợ kỹ thuật?</h2>
-          <p className="text-blue-100 mb-6">Đội ngũ IT khoa luôn sẵn sàng hỗ trợ giảng viên sử dụng hệ thống</p>
+          <p className="text-white/90 mb-6">Đội ngũ IT khoa luôn sẵn sàng hỗ trợ giảng viên sử dụng hệ thống</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="tel:02435577799" className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 flex items-center justify-center space-x-2">
               <Phone className="w-5 h-5" />

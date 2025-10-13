@@ -11,77 +11,7 @@ interface AuthContextType extends AuthState {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Mock users for development - Now using ID-based login
-// These are temporary accounts for testing. Real accounts will be imported from Excel
-const mockUsers: (User & { password: string; userId: string })[] = [
-  // Admin account
-  {
-    id: '1',
-    userId: 'admin001',
-    email: 'admin@dainam.edu.vn',
-    password: 'admin123',
-    name: 'Quản trị viên hệ thống',
-    role: 'admin',
-    phone: '0123456789'
-  },
-  // Sample students (will be replaced by Excel import)
-  {
-    id: '2',
-    userId: 'sv001',
-    email: 'sv001@dainam.edu.vn',
-    password: 'password123',
-    name: 'Nguyễn Văn A',
-    role: 'sinh-vien',
-    phone: '0987654321'
-  },
-  {
-    id: '3',
-    userId: 'sv002',
-    email: 'sv002@dainam.edu.vn',
-    password: 'password123',
-    name: 'Trần Thị B',
-    role: 'sinh-vien',
-    phone: '0987654322'
-  },
-  // Sample teachers (will be replaced by Excel import)
-  {
-    id: '4',
-    userId: 'gv001',
-    email: 'gv001@dainam.edu.vn',
-    password: 'password123',
-    name: 'TS. Lê Văn C',
-    role: 'giang-vien',
-    phone: '0912345678'
-  },
-  {
-    id: '5',
-    userId: 'gv002',
-    email: 'gv002@dainam.edu.vn',
-    password: 'password123',
-    name: 'ThS. Phạm Thị D',
-    role: 'giang-vien',
-    phone: '0912345679'
-  },
-  // Sample companies (will be replaced by Excel import)
-  {
-    id: '6',
-    userId: 'dn001',
-    email: 'contact@fpt.com.vn',
-    password: 'password123',
-    name: 'Công ty FPT Software',
-    role: 'doanh-nghiep',
-    phone: '0934567890'
-  },
-  {
-    id: '7',
-    userId: 'dn002',
-    email: 'contact@viettel.com.vn',
-    password: 'password123',
-    name: 'Tập đoàn Viettel',
-    role: 'doanh-nghiep',
-    phone: '0934567891'
-  }
-];
+// Mock users for development were removed during cleanup. Use real backend auth only.
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [authState, setAuthState] = useState<AuthState>({

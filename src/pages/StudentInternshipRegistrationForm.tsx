@@ -22,6 +22,7 @@ interface StudentProfile {
   dia_chi_cong_ty?: string;
   nguoi_lien_he_cong_ty?: string;
   sdt_nguoi_lien_he?: string;
+  cv_path?: string;
 }
 
 interface RegistrationFormData {
@@ -32,6 +33,7 @@ interface RegistrationFormData {
   dia_chi_cong_ty?: string;
   nguoi_lien_he_cong_ty?: string;
   sdt_nguoi_lien_he?: string;
+  cv_file?: File | null;
 }
 
 const StudentInternshipRegistrationForm: React.FC = () => {
@@ -44,6 +46,8 @@ const StudentInternshipRegistrationForm: React.FC = () => {
   });
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [cvFile, setCvFile] = useState<File | null>(null);
+  const [cvUploadError, setCvUploadError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchStudentProfile = async () => {
@@ -80,6 +84,32 @@ const StudentInternshipRegistrationForm: React.FC = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const handleCvFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setCvUploadError(null);
+    
+    if (!file) {
+      setCvFile(null);
+      return;
+    }
+
+    // Validate file type
+    if (file.type !== 'application/pdf') {
+      setCvUploadError('Chỉ chấp nhận file PDF');
+      setCvFile(null);
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setCvUploadError('File CV không được vượt quá 5MB');
+      setCvFile(null);
+      return;
+    }
+
+    setCvFile(file);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -103,6 +133,12 @@ const StudentInternshipRegistrationForm: React.FC = () => {
       return;
     }
 
+    // Validate CV file
+    if (!cvFile) {
+      setMessage({ type: 'error', text: 'Vui lòng upload file CV (định dạng PDF)' });
+      return;
+    }
+
     if (formData.nguyen_vong_thuc_tap === 'tu_lien_he') {
       if (!formData.cong_ty_tu_lien_he || !formData.dia_chi_cong_ty || !formData.nguoi_lien_he_cong_ty || !formData.sdt_nguoi_lien_he) {
         setMessage({ type: 'error', text: 'Vui lòng điền đầy đủ thông tin công ty khi chọn tự liên hệ' });
@@ -114,11 +150,16 @@ const StudentInternshipRegistrationForm: React.FC = () => {
     setMessage(null);
 
     try {
-      const success = await submitInternshipRegistration(formData);
+      const dataWithCv = { ...formData, cv_file: cvFile };
+      const success = await submitInternshipRegistration(dataWithCv);
       if (success) {
         setMessage({ type: 'success', text: 'Đăng ký thực tập thành công!' });
         // Trigger notification
         triggerRegistrationSuccess('internship');
+        
+        // Clear the CV file input since it's now uploaded
+        setCvFile(null);
+        
         // Try to get updated student object from the hook
         const updated: any = (submitInternshipRegistration as any).lastUpdatedStudent;
         if (updated) {
@@ -134,6 +175,12 @@ const StudentInternshipRegistrationForm: React.FC = () => {
             nguoi_lien_he_cong_ty: updated.nguoi_lien_he_cong_ty || prev.nguoi_lien_he_cong_ty,
             sdt_nguoi_lien_he: updated.sdt_nguoi_lien_he || prev.sdt_nguoi_lien_he
           }));
+        } else {
+          // If no updated object is returned, manually refresh the profile
+          const refreshedProfile = await getMyProfile();
+          if (refreshedProfile) {
+            setStudentProfile(refreshedProfile);
+          }
         }
       } else {
         setMessage({ type: 'error', text: error || 'Có lỗi xảy ra khi đăng ký. Vui lòng thử lại.' });
@@ -513,6 +560,96 @@ const StudentInternshipRegistrationForm: React.FC = () => {
                   </p>
                 </div>
               )}
+            </div>
+
+            {/* CV Upload Section */}
+            <div className="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-2xl p-6">
+              <h3 className="text-lg font-medium text-gray-900 mb-4 flex items-center">
+                <FileText className="h-5 w-5 mr-2 text-orange-600" />
+                Upload CV <span className="text-red-500 text-lg ml-1">*</span>
+              </h3>
+              
+              <div className="space-y-4">
+                <div className="border-2 border-dashed border-orange-300 rounded-xl p-6 text-center hover:border-orange-400 transition-colors">
+                  <div className="mb-4">
+                    <FileText className="h-12 w-12 text-orange-400 mx-auto mb-2" />
+                    <p className="text-sm text-gray-600 mb-2">
+                      Tải lên file CV của bạn (định dạng PDF, tối đa 5MB)
+                    </p>
+                    <p className="text-xs text-orange-600 font-medium">
+                      CV là bắt buộc cho cả hai hình thức: Khoa giới thiệu và Tự liên hệ
+                    </p>
+                  </div>
+                  
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    onChange={handleCvFileChange}
+                    className="hidden"
+                    id="cv-upload"
+                  />
+                  <label
+                    htmlFor="cv-upload"
+                    className="inline-flex items-center px-6 py-3 bg-orange-600 text-white font-medium rounded-xl hover:bg-orange-700 transition-colors cursor-pointer"
+                  >
+                    <FileText className="h-5 w-5 mr-2" />
+                    Chọn file CV
+                  </label>
+                </div>
+                
+                {cvFile && (
+                  <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+                    <div className="flex items-center">
+                      <CheckCircle className="h-5 w-5 text-green-600 mr-2" />
+                      <div>
+                        <p className="text-sm font-medium text-green-800">
+                          Đã chọn file: {cvFile.name}
+                        </p>
+                        <p className="text-xs text-green-600">
+                          Kích thước: {(cvFile.size / 1024 / 1024).toFixed(2)} MB
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                {cvUploadError && (
+                  <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                    <div className="flex items-center">
+                      <AlertCircle className="h-5 w-5 text-red-600 mr-2" />
+                      <p className="text-sm text-red-800">{cvUploadError}</p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Current CV Display */}
+                {studentProfile?.cv_path && !cvFile && (
+                  <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <FileText className="h-5 w-5 text-blue-600 mr-2" />
+                        <div>
+                          <p className="text-sm font-medium text-blue-800">
+                            CV hiện tại đã được tải lên
+                          </p>
+                          <p className="text-xs text-blue-600">
+                            Bạn có thể tải lên CV mới để thay thế
+                          </p>
+                        </div>
+                      </div>
+                      <a
+                        href={`http://localhost:3001${studentProfile.cv_path}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        Xem CV
+                      </a>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Company Information - Only show when "tu_lien_he" is selected */}

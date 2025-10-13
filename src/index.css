@@ -2,53 +2,231 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Professional Vietnamese University Design System */
+
+@layer base {
+  /* Modern Typography System */
+  body {
+    font-family: system-ui,Avenir,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: system-ui,Avenir,Helvetica,Arial,sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  /* Đại Nam University Color Variables */
+  :root {
+    /* Màu chính của trường Đại học Đại Nam */
+    --color-brandBlueDark: #213f99;
+    --color-primaryB-500: #f37320;
+    --color-primaryB-200: #fef1e9;
+    --color-ink900: #1c2337;
+    
+    /* Màu chính */
+    --color-primary: #213f99;
+    --color-primary-dark: #1a3280;
+    --color-primary-light: #3d5bb3;
+    --color-secondary: #f37320;
+    --color-secondary-dark: #d65d1a;
+    --color-secondary-light: #fef1e9;
+    --color-accent: #213f99;
+    --color-success: #00C853;
+    --color-warning: #f37320;
+    --color-error: #D32F2F;
+    --color-info: #213f99;
+    
+    /* Màu chữ */
+    --color-text-primary: #1c2337;
+    --color-text-secondary: #213f99;
+    --color-text-tertiary: #6b7280;
+    
+    /* Màu nền - toàn bộ màu trắng */
+    --color-bg-primary: #FFFFFF;
+    --color-bg-secondary: #FFFFFF;
+    --color-bg-tertiary: #FFFFFF;
+    
+    /* Màu viền */
+    --color-border: #e5e7eb;
+    --color-border-focus: #213f99;
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+  }
+}
+
 /* Hide scrollbar for horizontal navigation */
 @layer components {
   .scrollbar-hide {
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
   .scrollbar-hide::-webkit-scrollbar {
-    display: none;  /* Safari and Chrome */
+    display: none;
   }
 
-  /* Custom scrollbar styles */
+  /* Premium Custom Scrollbar */
   .custom-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: #3B82F6 #F3F4F6;
+    scrollbar-color: var(--color-primary) var(--color-bg-tertiary);
   }
 
   .custom-scrollbar::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: #F3F4F6;
-    border-radius: 4px;
+    background: var(--color-bg-tertiary);
+    border-radius: var(--radius-sm);
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #3B82F6, #1D4ED8);
-    border-radius: 4px;
-    transition: background 0.2s ease;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--color-bg-tertiary);
+    transition: all 0.3s ease;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #1D4ED8, #1E40AF);
+    background: linear-gradient(135deg, var(--color-primary-dark), #001F66);
+    border-color: var(--color-border);
   }
 
-  .custom-scrollbar::-webkit-scrollbar-corner {
-    background: #F3F4F6;
+  /* Đại Nam University Button Styles */
+  .btn-primary {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    letter-spacing: 0.01em;
+    box-shadow: 0 4px 12px rgba(33, 63, 153, 0.25);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    cursor: pointer;
   }
 
-  /* Smooth scrolling animation */
-  .scroll-smooth-custom {
-    scroll-behavior: smooth;
-    transition: scroll-left 0.3s ease;
+  .btn-primary:hover {
+    background: linear-gradient(135deg, var(--color-primary-dark), #12204d);
+    box-shadow: 0 8px 16px rgba(33, 63, 153, 0.35);
+    transform: translateY(-2px);
   }
 
-  /* Student Dashboard Animations */
+  .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(33, 63, 153, 0.3);
+  }
+
+  .btn-secondary {
+    background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark));
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    box-shadow: 0 4px 12px rgba(243, 115, 32, 0.25);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-secondary:hover {
+    background: linear-gradient(135deg, var(--color-secondary-dark), #732f0e);
+    box-shadow: 0 8px 16px rgba(243, 115, 32, 0.35);
+    transform: translateY(-2px);
+  }
+
+  /* Đại Nam University Card Styles */
+  .card {
+    background: white;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-xl);
+    transform: translateY(-4px);
+    border-color: var(--color-border-focus);
+  }
+
+  /* Đại Nam University Table Styles */
+  .table-professional {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    background: white;
+  }
+
+  .table-professional thead {
+    background: linear-gradient(135deg, var(--color-primaryB-200), #FFFFFF);
+    border-bottom: 2px solid var(--color-primary);
+  }
+
+  .table-professional thead th {
+    padding: 1rem;
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-primary);
+    border-bottom: 2px solid var(--color-primary);
+  }
+
+  .table-professional tbody tr {
+    transition: all 0.2s ease;
+    border-bottom: 1px solid var(--color-border);
+    background: white;
+  }
+
+  .table-professional tbody tr:hover {
+    background: linear-gradient(90deg, var(--color-primaryB-200) 0%, #FFFFFF 100%);
+    box-shadow: 0 2px 8px rgba(33, 63, 153, 0.08);
+    transform: translateX(4px);
+  }
+
+  .table-professional tbody td {
+    padding: 1rem;
+    font-size: 0.9375rem;
+    color: var(--color-text-primary);
+  }
+
+  /* Đại Nam University Gradient Backgrounds */
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, #213f99 0%, #1a3280 50%, #12204d 100%);
+  }
+
+  .bg-gradient-secondary {
+    background: linear-gradient(135deg, #f37320 0%, #d65d1a 50%, #732f0e 100%);
+  }
+
+  .bg-gradient-accent {
+    background: linear-gradient(135deg, #213f99 0%, #1a3280 50%, #12204d 100%);
+  }
+
+  .bg-gradient-success {
+    background: linear-gradient(135deg, #00C853 0%, #009624 50%, #006400 100%);
+  }
+
+  .bg-gradient-soft {
+    background: linear-gradient(135deg, #fef1e9 0%, #ffffff 50%, #ffffff 100%);
+  }
+
+  /* Professional Animations */
   @keyframes fadeInUp {
     from {
       opacity: 0;
@@ -82,21 +260,21 @@
     }
   }
 
-  @keyframes growHeight {
-    from {
-      height: 0;
-    }
-    to {
-      height: 3rem;
-    }
-  }
-
   @keyframes pulse-soft {
     0%, 100% {
       opacity: 1;
     }
     50% {
-      opacity: 0.7;
+      opacity: 0.85;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200px 0;
+    }
+    100% {
+      background-position: calc(200px + 100%) 0;
     }
   }
 
@@ -106,15 +284,6 @@
     }
     50% {
       transform: translateY(-10px);
-    }
-  }
-
-  @keyframes spin-slow {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
     }
   }
 
@@ -130,110 +299,166 @@
   }
 
   .animate-fadeInUp {
-    animation: fadeInUp 0.6s ease-out forwards;
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
   .animate-slideInLeft {
-    animation: slideInLeft 0.5s ease-out forwards;
+    animation: slideInLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
   .animate-slideInRight {
-    animation: slideInRight 0.5s ease-out forwards;
-  }
-
-  .animate-growHeight {
-    animation: growHeight 0.3s ease-out forwards;
+    animation: slideInRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
   .animate-pulse-soft {
-    animation: pulse-soft 2s ease-in-out infinite;
+    animation: pulse-soft 2.5s ease-in-out infinite;
   }
 
   .animate-float {
     animation: float 3s ease-in-out infinite;
   }
 
-  .animate-spin-slow {
-    animation: spin-slow 20s linear infinite;
+  .animate-fade-in {
+    animation: fadeIn 1s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Blob animation cho background */
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+
+  @keyframes blob {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
   }
 
   .animate-slideDown {
-    animation: slideDown 0.3s ease-out forwards;
+    animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
-  /* Gradient backgrounds */
-  .bg-gradient-student {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  }
-
-  .bg-gradient-student-card {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  }
-
-  .bg-gradient-success {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  }
-
-  .bg-gradient-warning {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  }
-
-  /* Hover effects */
+  /* Professional Hover Effects */
   .hover-lift {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .hover-lift:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 25px -5px rgba(0, 82, 204, 0.15), 0 10px 10px -5px rgba(0, 82, 204, 0.1);
   }
 
-  /* Glass effect */
+  /* Glass Effect */
   .glass-effect {
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(0, 82, 204, 0.1);
   }
 
-  /* Loading shimmer effect */
-  @keyframes shimmer {
-    0% {
-      background-position: -200px 0;
-    }
-    100% {
-      background-position: calc(200px + 100%) 0;
-    }
+  /* Professional Badge Styles */
+  .badge-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.375rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    transition: all 0.2s ease;
   }
 
+  .badge-success {
+    background: linear-gradient(135deg, #D4EDDA, #C3E6CB);
+    color: #155724;
+    border: 1px solid #C3E6CB;
+  }
+
+  .badge-warning {
+    background: linear-gradient(135deg, var(--color-primaryB-200), #fdebd7);
+    color: var(--color-primaryB-500);
+    border: 1px solid var(--color-primaryB-500);
+  }
+
+  .badge-info {
+    background: linear-gradient(135deg, #e6edff, #d1ddff);
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+  }
+
+  .badge-error {
+    background: linear-gradient(135deg, #F8D7DA, #F5C6CB);
+    color: #721C24;
+    border: 1px solid #F5C6CB;
+  }
+
+  /* Loading shimmer effect với màu Đại Nam */
   .loading-shimmer {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background: linear-gradient(90deg, var(--color-primaryB-200) 25%, #ffffff 50%, var(--color-primaryB-200) 75%);
     background-size: 200px 100%;
     animation: shimmer 1.5s infinite;
   }
 
-  /* Table hover effects */
-  .table-row-hover {
-    transition: all 0.2s ease;
-  }
-
-  .table-row-hover:hover {
-    background-color: #F8FAFC;
-    transform: translateX(2px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  }
-
-  /* Scroll indicator pulse */
+  /* Scroll indicator */
   .scroll-indicator {
     animation: pulse-gentle 2s infinite;
   }
 
   @keyframes pulse-gentle {
     0%, 100% {
-      opacity: 0.6;
+      opacity: 0.7;
     }
     50% {
       opacity: 1;
     }
+  }
+
+  /* Table row hover effects */
+  .table-row-hover {
+    transition: all 0.2s ease;
+  }
+
+  .table-row-hover:hover {
+    background-color: #F8FAFC;
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(0, 82, 204, 0.08);
+  }
+
+  /* Enhanced table cell styling */
+  .table-cell {
+    transition: all 0.2s ease;
+  }
+
+  .table-cell:hover {
+    background-color: rgba(0, 82, 204, 0.04);
   }
 
   /* Progress bar animation */
@@ -243,7 +468,7 @@
   }
 
   .progress-bar:hover {
-    background: linear-gradient(135deg, #1E40AF, #3730A3);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
     transform: scaleY(1.2);
     cursor: grab;
   }
@@ -260,12 +485,12 @@
 
   .scroll-button:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 82, 204, 0.2);
   }
 
   .scroll-button:active {
     transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 6px rgba(33, 63, 153, 0.15);
   }
 
   /* Tooltip animations */
@@ -292,19 +517,10 @@
     }
   }
 
-  /* Enhanced table styling */
-  .table-cell {
-    transition: all 0.2s ease;
-  }
-
-  .table-cell:hover {
-    background-color: rgba(59, 130, 246, 0.05);
-  }
-
   /* Status badge animations */
   .status-badge {
     transition: all 0.2s ease;
-    animation: statusPulse 2s ease-in-out infinite;
+    animation: statusPulse 2.5s ease-in-out infinite;
   }
 
   @keyframes statusPulse {
@@ -312,13 +528,13 @@
       transform: scale(1);
     }
     50% {
-      transform: scale(1.02);
+      transform: scale(1.03);
     }
   }
 
-  /* Loading skeleton */
+  /* Loading skeleton với màu Đại Nam */
   .skeleton {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background: linear-gradient(90deg, var(--color-primaryB-200) 25%, #ffffff 50%, var(--color-primaryB-200) 75%);
     background-size: 200% 100%;
     animation: loading 1.5s infinite;
   }
@@ -330,5 +546,62 @@
     100% {
       background-position: -200% 0;
     }
+  }
+
+  /* Utility classes for smooth transitions */
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .transition-fast {
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .transition-slow {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Đại Nam University Utility Classes */
+  .text-dai-nam-blue {
+    color: var(--color-brandBlueDark);
+  }
+
+  .text-dai-nam-orange {
+    color: var(--color-primaryB-500);
+  }
+
+  .text-dai-nam-dark {
+    color: var(--color-ink900);
+  }
+
+  .bg-dai-nam-blue {
+    background-color: var(--color-brandBlueDark);
+  }
+
+  .bg-dai-nam-orange {
+    background-color: var(--color-primaryB-500);
+  }
+
+  .bg-dai-nam-light {
+    background-color: var(--color-primaryB-200);
+  }
+
+  .border-dai-nam-blue {
+    border-color: var(--color-brandBlueDark);
+  }
+
+  .border-dai-nam-orange {
+    border-color: var(--color-primaryB-500);
+  }
+
+  /* Hover effects với màu Đại Nam */
+  .hover-dai-nam-blue:hover {
+    background-color: var(--color-brandBlueDark);
+    color: white;
+  }
+
+  .hover-dai-nam-orange:hover {
+    background-color: var(--color-primaryB-500);
+    color: white;
   }
 }

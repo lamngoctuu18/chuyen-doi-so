@@ -8,41 +8,52 @@ import { useDashboardStats } from '../../hooks/useDashboardStats';
 import daiNamLogo from '../../assets/fitdnu_logo.png';
 
 const AdminDashboard: React.FC = () => {
-  const { stats } = useDashboardStats();
+  const { stats, loading, error } = useDashboardStats();
 
-  // Default stats for loading/error states
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 to-blue-800">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto mb-4"></div>
+          <p className="text-white">Đang tải thống kê...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Default stats for error states or when data is not available
   const defaultStats = {
-    totalSinhVien: 150,
-    totalInterns: 120,
-    totalDoanhNghiep: 80,
-    totalGiangVien: 25
+    totalStudents: 0,
+    totalTeachers: 0,
+    totalCompanies: 0,
+    activeBatches: 0
   };
 
   const currentStats = stats || defaultStats;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-orange-600 relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden" style={{background: 'linear-gradient(135deg, #213f99 0%, #1a3280 50%, #f37320 100%)'}}>
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-10 -left-4 w-96 h-96 bg-orange-500/20 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
-        <div className="absolute top-10 -right-4 w-96 h-96 bg-blue-500/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-orange-600/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
+        <div className="absolute top-10 -left-4 w-96 h-96 bg-orange-500/10 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
+        <div className="absolute top-10 -right-4 w-96 h-96 bg-white/10 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-orange-600/10 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
         
         {/* Geometric Pattern */}  
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Header Section */}
         <div className="text-center mb-20">
           {/* Logo */}
-          <div className="mx-auto w-32 h-32 mb-12 relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl shadow-2xl transform hover:scale-105 transition-all duration-300 hover:rotate-3"></div>
-            <div className="relative w-full h-full bg-white rounded-3xl shadow-xl p-4 flex items-center justify-center">
+          <div className="mx-auto w-28 h-28 mb-12 relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300"></div>
+            <div className="relative w-full h-full bg-white rounded-full shadow-xl p-1.5 flex items-center justify-center">
               <img 
                 src={daiNamLogo} 
                 alt="Đại học Đại Nam" 
-                className="w-20 h-20 object-contain"
+                className="w-full h-full object-contain"
               />
             </div>
           </div>
@@ -63,7 +74,7 @@ const AdminDashboard: React.FC = () => {
             <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
               <Users className="h-8 w-8 text-white" />
             </div>
-            <div className="text-3xl font-bold text-white mb-2">{currentStats.totalSinhVien}</div>
+            <div className="text-3xl font-bold text-white mb-2">{currentStats.totalStudents}</div>
             <div className="text-blue-100 font-medium">Sinh viên</div>
           </div>
           
@@ -71,7 +82,7 @@ const AdminDashboard: React.FC = () => {
             <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
               <GraduationCap className="h-8 w-8 text-white" />
             </div>
-            <div className="text-3xl font-bold text-white mb-2">{currentStats.totalGiangVien}</div>
+            <div className="text-3xl font-bold text-white mb-2">{currentStats.totalTeachers}</div>
             <div className="text-blue-100 font-medium">Giảng viên</div>
           </div>
           
@@ -79,7 +90,7 @@ const AdminDashboard: React.FC = () => {
             <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
               <Building2 className="h-8 w-8 text-white" />
             </div>
-            <div className="text-3xl font-bold text-white mb-2">{currentStats.totalDoanhNghiep}</div>
+            <div className="text-3xl font-bold text-white mb-2">{currentStats.totalCompanies}</div>
             <div className="text-blue-100 font-medium">Doanh nghiệp</div>
           </div>
           
@@ -87,8 +98,8 @@ const AdminDashboard: React.FC = () => {
             <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
               <Briefcase className="h-8 w-8 text-white" />
             </div>
-            <div className="text-3xl font-bold text-white mb-2">{currentStats.totalInterns}</div>
-            <div className="text-blue-100 font-medium">Thực tập</div>
+            <div className="text-3xl font-bold text-white mb-2">{currentStats.activeBatches}</div>
+            <div className="text-blue-100 font-medium">Đợt thực tập</div>
           </div>
         </div>
 
@@ -203,15 +214,15 @@ const AdminDashboard: React.FC = () => {
                   <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl flex items-center justify-center mb-6 shadow-lg">
                     <BarChart3 className="h-7 w-7 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-4" style={{ lineHeight: '1.5' }}>Báo cáo & Thống kê</h3>
+                  <h3 className="text-xl font-bold text-white mb-4" style={{ lineHeight: '1.5' }}>Thống kê chi tiết</h3>
                   <p className="text-blue-100 mb-6 flex-grow" style={{ lineHeight: '1.5' }}>
-                    Xem báo cáo tổng hợp và thống kê hệ thống.
+                    Xem thống kê chi tiết và bảng điều khiển phân tích dữ liệu.
                   </p>
                   <Link 
-                    to="/admin/reports"
+                    to="/admin/stats"
                     className="inline-flex items-center text-orange-300 hover:text-orange-200 font-semibold transition-colors group mt-auto"
                   >
-                    Xem báo cáo
+                    Xem thống kê chi tiết
                     <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>

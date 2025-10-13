@@ -1,8 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { Search } from 'lucide-react';
+import { Search, FileText } from 'lucide-react';
 import { useStudents } from '../hooks/useStudents';
 import { useDebounce } from '../hooks/useDebounce';
-import { useNotificationTriggers } from '../hooks/useNotificationTriggers';
 import RegistrationPeriodModal from '../components/RegistrationPeriodModal';
 import HorizontalScrollTable from '../components/HorizontalScrollTable';
 // import types if needed later
@@ -26,11 +25,7 @@ const StudentsPage: React.FC = () => {
   const [nameSortDir, setNameSortDir] = useState<'none' | 'asc' | 'desc'>('none');
   const [classSortDir, setClassSortDir] = useState<'none' | 'asc' | 'desc'>('none');
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
-  const { 
-    triggerReportDeadlineCreated, 
-    triggerSystemAnnouncement,
-    triggerReportDeadlineWarning
-  } = useNotificationTriggers();
+  // Notification triggers were removed from this page (not used here)
 
   // Chỉ gửi server-side filters cho API
   const getServerSideStatus = () => {
@@ -98,11 +93,13 @@ const StudentsPage: React.FC = () => {
     const doanhNghiep = student.donViThucTap || student.doanhNghiepThucTap || student.don_vi_thuc_tap || student.doanh_nghiep_thuc_tap;
     const giangVien = student.giangVienHuongDan || student.giang_vien_huong_dan || student.giang_vien;
     const nguyenVong = student.nguyenVongThucTap || student.nguyen_vong_thuc_tap || student.nguyen_vong;
+    const cvPath = student.cv_path || student.cvPath || student.cv || student.cv_url || student.cvUrl;
     
     return viTri && viTri.trim() !== '' &&
            doanhNghiep && doanhNghiep.trim() !== '' &&
            giangVien && giangVien.trim() !== '' &&
-           nguyenVong && nguyenVong.trim() !== '';
+      nguyenVong && nguyenVong.trim() !== '' &&
+      cvPath && cvPath.toString().trim() !== '';
   };
 
   // Lấy danh sách thông tin còn thiếu
@@ -112,11 +109,13 @@ const StudentsPage: React.FC = () => {
     const doanhNghiep = student.donViThucTap || student.doanhNghiepThucTap || student.don_vi_thuc_tap || student.doanh_nghiep_thuc_tap;
     const giangVien = student.giangVienHuongDan || student.giang_vien_huong_dan || student.giang_vien;
     const nguyenVong = student.nguyenVongThucTap || student.nguyen_vong_thuc_tap || student.nguyen_vong;
+    const cvPath = student.cv_path || student.cvPath || student.cv || student.cv_url || student.cvUrl;
     
     if (!viTri || viTri.trim() === '') missing.push('Vị trí mong muốn');
     if (!doanhNghiep || doanhNghiep.trim() === '') missing.push('Doanh nghiệp thực tập');
     if (!giangVien || giangVien.trim() === '') missing.push('Giảng viên hướng dẫn');
     if (!nguyenVong || nguyenVong.trim() === '') missing.push('Nguyện vọng thực tập');
+    if (!cvPath || cvPath.toString().trim() === '') missing.push('CV');
     
     return missing;
   };
@@ -299,35 +298,6 @@ const StudentsPage: React.FC = () => {
                 Quản lý thời gian ĐK
               </button>
 
-              {/* Demo Notification Button */}
-              <button
-                type="button"
-                onClick={() => {
-                  // Demo notifications for testing
-                  triggerSystemAnnouncement(
-                    'Thông báo quan trọng',
-                    'Hệ thống đã cập nhật tính năng thông báo mới. Bạn sẽ nhận được thông báo về các hoạt động quan trọng.'
-                  );
-                  
-                  // Demo report deadline
-                  const nextWeek = new Date();
-                  nextWeek.setDate(nextWeek.getDate() + 7);
-                  triggerReportDeadlineCreated(5, nextWeek, 'TS. Nguyễn Văn A');
-                  
-                  // Demo warning
-                  setTimeout(() => {
-                    triggerReportDeadlineWarning(4, new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), 'TS. Trần Thị B');
-                  }, 1000);
-                }}
-                className="inline-flex items-center px-4 py-3 bg-purple-600 text-white rounded-2xl hover:bg-purple-700 transition-all duration-300 shadow-lg"
-              >
-                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5v-5zm-6-2a2 2 0 100-4 2 2 0 000 4z" />
-                </svg>
-                Demo TB
-              </button>
-
-              
               <button
                 type="button"
                 onClick={async () => {
@@ -665,6 +635,9 @@ const StudentsPage: React.FC = () => {
             <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200" style={{ width: '220px' }}>
               Doanh nghiệp thực tập
             </th>
+            <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200" style={{ width: '100px' }}>
+              CV
+            </th>
             <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '120px' }}>
               Trạng thái
             </th>
@@ -673,7 +646,7 @@ const StudentsPage: React.FC = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {!loading && allStudents.length === 0 && !debouncedSearchTerm && (
                 <tr>
-                  <td colSpan={12} className="px-6 py-8 text-center text-gray-500 text-sm">
+                  <td colSpan={13} className="px-6 py-8 text-center text-gray-500 text-sm">
                     Không có dữ liệu sinh viên
                   </td>
                 </tr>
@@ -681,7 +654,7 @@ const StudentsPage: React.FC = () => {
               
               {!loading && allStudents.length === 0 && debouncedSearchTerm && (
                 <tr>
-                  <td colSpan={12} className="px-6 py-8 text-center text-gray-500 text-sm">
+                  <td colSpan={13} className="px-6 py-8 text-center text-gray-500 text-sm">
                     Không tìm thấy sinh viên nào với từ khóa "{debouncedSearchTerm}"
                   </td>
                 </tr>
@@ -776,6 +749,29 @@ const StudentsPage: React.FC = () => {
                     )}
                   </td>
 
+                  {/* CV */}
+                  <td className="px-1 py-1 text-xs text-gray-600 border-r border-gray-200">
+                    {(() => {
+                      const cvPath = student.cv_path || student.cvPath || student.cv || student.cv_url || student.cvUrl;
+                      if (cvPath) {
+                        const href = cvPath.startsWith('http') ? cvPath : `http://localhost:3001${cvPath}`;
+                        return (
+                          <a
+                            href={href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800"
+                            title="Xem CV"
+                          >
+                            <FileText className="w-4 h-4" />
+                            <span className="underline">Xem CV</span>
+                          </a>
+                        );
+                      }
+                      return <span className="text-red-400 text-xs bg-red-50 px-1 py-0.5 rounded">Chưa có CV</span>;
+                    })()}
+                  </td>
+
                   {/* Trạng thái (moved to end) */}
                   <td className="px-1 py-1 text-xs border-r border-gray-200">
                     {(() => {
@@ -810,7 +806,7 @@ const StudentsPage: React.FC = () => {
               
               {(loading || isLoadingMore) && (
                 <tr>
-                  <td colSpan={12} className="px-6 py-4 text-center">
+                  <td colSpan={13} className="px-6 py-4 text-center">
                     <div className="flex justify-center items-center py-4">
                       <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
                       <span className="ml-2 text-sm text-gray-600">
@@ -823,7 +819,7 @@ const StudentsPage: React.FC = () => {
               
               {error && (
                 <tr>
-                  <td colSpan={12} className="px-6 py-8 text-center text-red-600">
+                  <td colSpan={13} className="px-6 py-8 text-center text-red-600">
                     <div className="py-4">
                       <p>Lỗi: {error}</p>
                       <button 

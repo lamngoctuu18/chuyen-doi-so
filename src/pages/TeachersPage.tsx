@@ -121,7 +121,7 @@ const TeachersPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-teal-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-teal-100 w-full">
       {/* Modern Header */}
       <div className="relative overflow-hidden bg-gradient-to-r from-emerald-900 via-teal-900 to-green-900">
         <div className="absolute inset-0">
@@ -129,9 +129,9 @@ const TeachersPage: React.FC = () => {
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-teal-400/20 to-green-400/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
         </div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="relative w-full px-0 py-12">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between">
-            <div>
+            <div className="px-4">
               <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
                 Quản lý Giảng viên
               </h1>
@@ -140,7 +140,7 @@ const TeachersPage: React.FC = () => {
               </p>
             </div>
             
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4 px-4">
               <button
                 className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white rounded-2xl hover:bg-emerald-700 transition-all duration-300 shadow-lg"
                 onClick={async () => {
@@ -256,8 +256,8 @@ const TeachersPage: React.FC = () => {
       </div>
 
       {/* Modern Search and Controls */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 p-8 mb-8">
+      <div className="w-full px-0 py-8">
+        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 p-8 mb-8 mx-4">
           <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
             {/* Modern Search Section */}
             <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center flex-1">
@@ -306,7 +306,7 @@ const TeachersPage: React.FC = () => {
 
 
         {/* Modern Table Container */}  
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 overflow-hidden">
+        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 overflow-hidden mx-4">
           <HorizontalScrollTable tableMinWidth="1600px" maxHeight="70vh">
         <thead className="bg-gray-50 sticky top-0 z-10">
           <tr>

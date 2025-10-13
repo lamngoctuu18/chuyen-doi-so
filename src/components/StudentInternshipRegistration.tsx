@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Calendar, Building, Users, MapPin, DollarSign, FileText, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { Search, Calendar, Building, Users, MapPin, DollarSign, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
 interface InternshipBatch {

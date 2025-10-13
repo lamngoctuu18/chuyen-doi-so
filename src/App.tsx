@@ -16,10 +16,9 @@ import CompaniesPage from './pages/CompaniesPage';
 import InternshipsPage from './pages/InternshipsPage';
 import TeacherReportsPage from './pages/TeacherReportsPage';
 import TeacherCompanyEvaluationsPage from './pages/TeacherCompanyEvaluationsPage';
+import InternshipReportsManagementPage from './pages/InternshipReportsManagementPage';
 // import AdminReportsManagementSimple from './pages/AdminReportsManagementSimple';
-import TestAdminReports from './pages/TestAdminReports';
-// import SimpleAdminReports from './pages/SimpleAdminReports';
-import ReliableAdminReports from './pages/ReliableAdminReports';
+// import TestAdminReports from './pages/TestAdminReports';
 import ProfilePage from './pages/ProfilePage';
 import AdminDashboard from './pages/AdminDashboard';
 import ImportAccountsPage from './pages/ImportAccountsPage';
@@ -32,6 +31,7 @@ import StudentSubmissionsPage from './pages/StudentSubmissionsPage';
 import StudentGuidePage from './pages/guides/StudentGuidePage';
 import TeacherGuidePage from './pages/guides/TeacherGuidePage';
 import CompanyGuidePage from './pages/guides/CompanyGuidePage';
+import AdminStatsPage from './pages/AdminStatsPage';
 
 function App() {
   return (
@@ -140,21 +140,13 @@ function App() {
                   element={
                     <ErrorBoundary>
                       <ProtectedRoute allowedRoles={['admin']}>
-                        <ReliableAdminReports />
+                        <InternshipReportsManagementPage />
                       </ProtectedRoute>
                     </ErrorBoundary>
                   } 
                 />
 
-                {/* Test admin reports */}
-                <Route 
-                  path="/test-admin-reports" 
-                  element={
-                    <ProtectedRoute allowedRoles={['admin']}>
-                      <TestAdminReports />
-                    </ProtectedRoute>
-                  } 
-                />
+                {/* Test admin reports - removed in cleanup */}
 
                 {/* Admin dashboard */}
                 <Route 
@@ -162,6 +154,16 @@ function App() {
                   element={
                     <ProtectedRoute allowedRoles={['admin']}>
                       <AdminDashboard />
+                    </ProtectedRoute>
+                  } 
+                />
+
+                {/* Admin statistics */}
+                <Route 
+                  path="/admin/stats" 
+                  element={
+                    <ProtectedRoute allowedRoles={['admin']}>
+                      <AdminStatsPage />
                     </ProtectedRoute>
                   } 
                 />

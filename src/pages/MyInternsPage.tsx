@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, Mail, Calendar, MapPin, BookOpen, Users, Eye, MessageSquare, Star, CheckCircle } from 'lucide-react';
+import { Phone, Mail, Calendar, BookOpen, Users, Eye, MessageSquare, Star, CheckCircle, FileText } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { companyInternshipAPI } from '../services/companyInternshipAPI';
 import { doanhNghiepAPI } from '../services/doanhNghiepAPI';
@@ -24,6 +24,7 @@ interface InternStudent {
   ngay_nop_cho_gv?: string | null;
   vi_tri_muon_ung_tuyen_thuc_tap?: string;
   don_vi_thuc_tap?: string;
+  cv_path?: string;
   // mới: lấy từ api sinh_vien_huong_dan
   vi_tri_thuc_tap?: string;
 }
@@ -195,11 +196,10 @@ const MyInternsPage: React.FC = () => {
   }
 
   return (
-    <div>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        {/* Modern Hero Header */}
-        <div className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 rounded-3xl shadow-2xl overflow-hidden">
+    <div className="min-h-screen bg-white py-8">
+      <div className="w-full space-y-8 px-4">
+        {/* Modern Hero Header - Màu Đại Nam */}
+        <div className="relative rounded-3xl shadow-2xl overflow-hidden mx-4" style={{background: 'linear-gradient(135deg, #213f99 0%, #1a3280 50%, #f37320 100%)'}}>
           <div className="absolute inset-0">
             <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -translate-y-48 translate-x-48 animate-pulse"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full translate-y-32 -translate-x-32 animate-pulse"></div>
@@ -238,7 +238,7 @@ const MyInternsPage: React.FC = () => {
       {/* Đã xóa thanh tìm kiếm và bộ lọc trạng thái theo yêu cầu */}
 
         {/* Modern Students List */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-300">
+        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-300 mx-4">
           <div className="p-8 border-b border-gray-200/60">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div className="flex items-center space-x-4">
@@ -307,110 +307,128 @@ const MyInternsPage: React.FC = () => {
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6">
+            <div className="grid grid-cols-1 gap-8 p-6">
               {students.map((student) => (
-                <div key={student.id} className="bg-white/90 backdrop-blur-sm border border-white/50 rounded-3xl p-8 hover:shadow-2xl hover:bg-white/95 transition-all duration-300 transform hover:scale-105 shadow-lg">
-                  <div className="flex justify-between items-start mb-6">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-4 mb-3">
-                        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
-                          <span className="text-white font-bold text-lg">
-                            {student.ho_ten.split(' ').pop()?.charAt(0).toUpperCase()}
-                          </span>
-                        </div>
-                        <div>
-                          <h3 className="text-xl font-bold text-gray-900 mb-1">{student.ho_ten}</h3>
-                          <div className="flex items-center gap-2">
-                            <div className="px-3 py-1 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full">
-                              <p className="text-sm font-semibold text-gray-700">{student.ma_sinh_vien}</p>
+                <div key={student.id} className="bg-white/90 backdrop-blur-sm border border-white/50 rounded-3xl overflow-hidden hover:shadow-2xl hover:bg-white/95 transition-all duration-300 shadow-lg">
+                  {/* Grid Layout: Thông tin sinh viên bên trái, Đánh giá bên phải */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* PHẦN BÊN TRÁI: THÔNG TIN SINH VIÊN */}
+                    <div className="p-8 bg-gradient-to-br from-blue-50 to-indigo-50">
+                      <div className="flex justify-between items-start mb-6">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-4 mb-3">
+                            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
+                              <span className="text-white font-bold text-lg">
+                                {student.ho_ten.split(' ').pop()?.charAt(0).toUpperCase()}
+                              </span>
+                            </div>
+                            <div>
+                              <h3 className="text-xl font-bold text-gray-900 mb-1">{student.ho_ten}</h3>
+                              <div className="flex items-center gap-2">
+                                <div className="px-3 py-1 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full">
+                                  <p className="text-sm font-semibold text-gray-700">{student.ma_sinh_vien}</p>
+                                </div>
+                              </div>
                             </div>
                           </div>
+                          {student.giang_vien_huong_dan && (
+                            <div className="flex items-center gap-3 mt-3 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl border border-emerald-200">
+                              <div className="p-2 bg-emerald-100 rounded-xl">
+                                <BookOpen className="w-5 h-5 text-emerald-600" />
+                              </div>
+                              <div>
+                                <p className="text-xs text-emerald-600 font-semibold uppercase tracking-wide">Giảng viên hướng dẫn</p>
+                                <p className="text-sm font-bold text-emerald-800">{student.giang_vien_huong_dan}</p>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(student.trang_thai_phan_cong)}`}>
+                          {getStatusText(student.trang_thai_phan_cong)}
+                        </span>
+                      </div>
+
+                      <div className="space-y-2 mb-4 text-sm">
+                        <div className="flex items-center text-gray-600">
+                          <Mail className="w-4 h-4 mr-2" />
+                          <span>{student.email}</span>
+                        </div>
+                        <div className="flex items-center text-gray-600">
+                          <Phone className="w-4 h-4 mr-2" />
+                          <span>{student.so_dien_thoai}</span>
+                        </div>
+                        <div className="flex items-center text-gray-600">
+                          <BookOpen className="w-4 h-4 mr-2" />
+                          <span>{student.lop}</span>
                         </div>
                       </div>
-                      {student.giang_vien_huong_dan && (
-                        <div className="flex items-center gap-3 mt-3 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl border border-emerald-200">
-                          <div className="p-2 bg-emerald-100 rounded-xl">
-                            <BookOpen className="w-5 h-5 text-emerald-600" />
-                          </div>
-                          <div>
-                            <p className="text-xs text-emerald-600 font-semibold uppercase tracking-wide">Giảng viên hướng dẫn</p>
-                            <p className="text-sm font-bold text-emerald-800">{student.giang_vien_huong_dan}</p>
-                          </div>
+
+                      <div className="mb-4">
+                        <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getPositionColor(student.vi_tri_mong_muon)}`}>
+                          {student.vi_tri_mong_muon}
+                        </span>
+                        {(student.vi_tri_thuc_tap || student.nhom_thuc_tap) && (
+                          <span className="ml-2 inline-block px-2 py-1 bg-indigo-100 text-indigo-800 rounded-md text-xs font-medium">
+                            {student.vi_tri_thuc_tap || student.nhom_thuc_tap}
+                          </span>
+                        )}
+                      </div>
+
+                      {student.ngay_bat_dau_thuc_tap && (
+                        <div className="flex items-center text-sm text-gray-600 mb-4">
+                          <Calendar className="w-4 h-4 mr-2" />
+                          <span>
+                            {new Date(student.ngay_bat_dau_thuc_tap).toLocaleDateString('vi-VN')} - 
+                            {student.ngay_ket_thuc_thuc_tap ? new Date(student.ngay_ket_thuc_thuc_tap).toLocaleDateString('vi-VN') : 'Chưa xác định'}
+                          </span>
                         </div>
                       )}
-                    </div>
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(student.trang_thai_phan_cong)}`}>
-                      {getStatusText(student.trang_thai_phan_cong)}
-                    </span>
-                  </div>
 
-                  <div className="space-y-2 mb-4 text-sm">
-                    <div className="flex items-center text-gray-600">
-                      <Mail className="w-4 h-4 mr-2" />
-                      <span>{student.email}</span>
-                    </div>
-                    <div className="flex items-center text-gray-600">
-                      <Phone className="w-4 h-4 mr-2" />
-                      <span>{student.so_dien_thoai}</span>
-                    </div>
-                    <div className="flex items-center text-gray-600">
-                      <BookOpen className="w-4 h-4 mr-2" />
-                      <span>{student.lop}</span>
-                    </div>
-                  </div>
-
-                  <div className="mb-4">
-                    <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getPositionColor(student.vi_tri_mong_muon)}`}>
-                      {student.vi_tri_mong_muon}
-                    </span>
-                    {(student.vi_tri_thuc_tap || student.nhom_thuc_tap) && (
-                      <span className="ml-2 inline-block px-2 py-1 bg-indigo-100 text-indigo-800 rounded-md text-xs font-medium">
-                        {student.vi_tri_thuc_tap || student.nhom_thuc_tap}
-                      </span>
-                    )}
-                  </div>
-
-                  {student.ngay_bat_dau_thuc_tap && (
-                    <div className="flex items-center text-sm text-gray-600 mb-4">
-                      <Calendar className="w-4 h-4 mr-2" />
-                      <span>
-                        {new Date(student.ngay_bat_dau_thuc_tap).toLocaleDateString('vi-VN')} - 
-                        {student.ngay_ket_thuc_thuc_tap ? new Date(student.ngay_ket_thuc_thuc_tap).toLocaleDateString('vi-VN') : 'Chưa xác định'}
-                      </span>
-                    </div>
-                  )}
-
-                  {/* Modern Company Evaluation Section */}
-                  <div className="mt-6 border-t border-gray-200 pt-6 bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 -mx-8 -mb-8 px-8 pb-8 rounded-b-3xl">
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="flex items-center gap-4">
-                        <div className="p-3 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl shadow-lg">
-                          <Star className="w-6 h-6 text-white" />
-                        </div>
-                        <div>
-                          <h4 className="text-lg font-bold text-gray-900">Đánh giá từ doanh nghiệp</h4>
-                          <p className="text-sm text-gray-600 font-medium">Gửi đến GVHD</p>
-                        </div>
+                      <div className="mt-6 pt-6 border-t border-gray-200">
+                        <button
+                          onClick={() => {
+                            setSelectedStudent(student);
+                            setShowDetailModal(true);
+                          }}
+                          className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 text-sm font-semibold flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transform hover:scale-105"
+                        >
+                          <Eye className="w-5 h-5" />
+                          Xem chi tiết đầy đủ
+                        </button>
                       </div>
-                      <div className="flex items-center gap-3">
-                        {(() => {
-                          const hasEval = (drafts[student.id]?.diem ?? student.diem_thuc_tap) != null || ((drafts[student.id]?.nhan_xet ?? student.nhan_xet_doanh_nghiep) || '').trim();
-                          return (
-                            <>
-                              <span className={`px-4 py-2 rounded-full text-sm font-semibold shadow-md ${hasEval ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : 'bg-gray-100 text-gray-700 border border-gray-200'}`}>
-                                {hasEval ? '✅ Đã đánh giá' : '⏳ Chưa đánh giá'}
-                              </span>
-                              {student.ngay_nop_cho_gv && (
-                                <span className="px-4 py-2 rounded-full text-sm font-semibold bg-green-100 text-green-700 border border-green-200 shadow-md">
-                                  🚀 Đã gửi
+                    </div>
+
+                    {/* PHẦN BÊN PHẢI: ĐÁNH GIÁ TỪ DOANH NGHIỆP */}
+                    <div className="p-8 bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50">
+                      <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-4">
+                          <div className="p-3 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl shadow-lg">
+                            <Star className="w-6 h-6 text-white" />
+                          </div>
+                          <div>
+                            <h4 className="text-lg font-bold text-gray-900">Đánh giá từ doanh nghiệp</h4>
+                            <p className="text-sm text-gray-600 font-medium">Gửi đến GVHD</p>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end gap-2">
+                          {(() => {
+                            const hasEval = (drafts[student.id]?.diem ?? student.diem_thuc_tap) != null || ((drafts[student.id]?.nhan_xet ?? student.nhan_xet_doanh_nghiep) || '').trim();
+                            return (
+                              <>
+                                <span className={`px-4 py-2 rounded-full text-sm font-semibold shadow-md ${hasEval ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : 'bg-gray-100 text-gray-700 border border-gray-200'}`}>
+                                  {hasEval ? '✅ Đã đánh giá' : '⏳ Chưa đánh giá'}
                                 </span>
-                              )}
-                            </>
-                          );
-                        })()}
+                                {student.ngay_nop_cho_gv && (
+                                  <span className="px-4 py-2 rounded-full text-sm font-semibold bg-green-100 text-green-700 border border-green-200 shadow-md">
+                                    🚀 Đã gửi
+                                  </span>
+                                )}
+                              </>
+                            );
+                          })()}
+                        </div>
                       </div>
-                    </div>
-                    
+                      
                     <div className="space-y-3">
                       {/* Modern Score Input */}
                       <div className="flex items-center gap-4 p-4 bg-white/60 rounded-2xl border border-white/50 shadow-sm">
@@ -438,7 +456,6 @@ const MyInternsPage: React.FC = () => {
                                 try {
                                   setSaving(String(student.id));
                                   await companyInternshipAPI.updateStudentEvaluation(student.id, { diem_thuc_tap: Number(val) });
-                                  // đồng bộ local state để tránh giật
                                   setStudents(prev => prev.map(s => s.id === student.id ? { ...s, diem_thuc_tap: Number(val) } : s));
                                 } catch (err) {
                                   console.error(err);
@@ -498,27 +515,27 @@ const MyInternsPage: React.FC = () => {
                       </div>
 
                       {/* Status Info */}
-                          <div className="flex items-center justify-between text-xs text-gray-500 mt-3 pt-3 border-t border-yellow-200">
-                            <div className="flex items-center gap-3">
-                              <span>
-                                {(drafts[student.id]?.diem ?? student.diem_thuc_tap) != null
-                                  ? `Đã chấm điểm: ${(drafts[student.id]?.diem ?? student.diem_thuc_tap)}/10`
-                                  : 'Chưa chấm điểm'}
-                              </span>
-                              <span>
-                                {((drafts[student.id]?.nhan_xet ?? student.nhan_xet_doanh_nghiep) || '').trim()
-                                  ? 'Đã có nhận xét'
-                                  : 'Chưa có nhận xét'}
-                              </span>
-                            </div>
-                            <div>
-                              {student.ngay_nop_cho_gv ? (
-                                <span className="text-green-600">Đã gửi cho GVHD: {new Date(student.ngay_nop_cho_gv).toLocaleDateString('vi-VN')}</span>
-                              ) : (
-                                <span className="text-yellow-700">Chưa gửi cho GVHD</span>
-                              )}
-                            </div>
-                          </div>
+                      <div className="flex items-center justify-between text-xs text-gray-500 mt-3 pt-3 border-t border-yellow-200">
+                        <div className="flex items-center gap-3">
+                          <span>
+                            {(drafts[student.id]?.diem ?? student.diem_thuc_tap) != null
+                              ? `Đã chấm điểm: ${(drafts[student.id]?.diem ?? student.diem_thuc_tap)}/10`
+                              : 'Chưa chấm điểm'}
+                          </span>
+                          <span>
+                            {((drafts[student.id]?.nhan_xet ?? student.nhan_xet_doanh_nghiep) || '').trim()
+                              ? 'Đã có nhận xét'
+                              : 'Chưa có nhận xét'}
+                          </span>
+                        </div>
+                        <div>
+                          {student.ngay_nop_cho_gv ? (
+                            <span className="text-green-600">Đã gửi cho GVHD: {new Date(student.ngay_nop_cho_gv).toLocaleDateString('vi-VN')}</span>
+                          ) : (
+                            <span className="text-yellow-700">Chưa gửi cho GVHD</span>
+                          )}
+                        </div>
+                      </div>
                       
                       {/* Submission Status */}
                       {(((drafts[student.id]?.diem ?? student.diem_thuc_tap) != null) || ((drafts[student.id]?.nhan_xet ?? student.nhan_xet_doanh_nghiep) || '').trim()) && !student.ngay_nop_cho_gv && (
@@ -530,29 +547,14 @@ const MyInternsPage: React.FC = () => {
                         </div>
                       )}
                     </div>
-                  </div>
-
-                  <div className="flex justify-between items-center mt-6 pt-6 border-t border-gray-200/60">
-                    <div className="text-sm text-gray-500 font-medium">
-                      ⏱️ Cập nhật: {new Date().toLocaleDateString('vi-VN')}
                     </div>
-                    <button
-                      onClick={() => {
-                        setSelectedStudent(student);
-                        setShowDetailModal(true);
-                      }}
-                      className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 text-sm font-semibold flex items-center gap-3 shadow-lg hover:shadow-xl transform hover:scale-105"
-                    >
-                      <Eye className="w-5 h-5" />
-                      Xem chi tiết
-                    </button>
                   </div>
                 </div>
               ))}
             </div>
           )}
         </div>
-        </div>
+      </div>
       </div>
 
       {/* Detail Modal */}
@@ -598,6 +600,40 @@ const MyInternsPage: React.FC = () => {
                     <span className="font-medium">Số điện thoại:</span>
                     <span>{selectedStudent.so_dien_thoai}</span>
                   </div>
+                </div>
+              </div>
+
+              {/* CV Section */}
+              <div>
+                <h4 className="font-medium text-gray-900 mb-3">Hồ sơ CV</h4>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  {selectedStudent.cv_path ? (
+                    <a
+                      href={`http://localhost:3001${selectedStudent.cv_path}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 text-blue-600 hover:text-blue-800 hover:bg-blue-50 p-3 rounded-lg transition-colors group"
+                    >
+                      <div className="p-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
+                        <FileText className="w-5 h-5 text-blue-600" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-semibold">Xem CV của sinh viên</div>
+                        <div className="text-sm text-gray-600">Nhấn để mở file PDF</div>
+                      </div>
+                      <Eye className="w-5 h-5" />
+                    </a>
+                  ) : (
+                    <div className="flex items-center gap-3 text-gray-500 p-3">
+                      <div className="p-2 bg-gray-200 rounded-lg">
+                        <FileText className="w-5 h-5 text-gray-400" />
+                      </div>
+                      <div>
+                        <div className="font-medium text-gray-700">Chưa có CV</div>
+                        <div className="text-sm">Sinh viên chưa tải lên CV</div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -662,7 +698,6 @@ const MyInternsPage: React.FC = () => {
           </div>
         </div>
       )}
-      </div>
     </div>
   );
 };

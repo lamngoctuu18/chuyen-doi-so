@@ -6,8 +6,10 @@ import {
   CheckCircle, FileText, Upload, Phone, Mail
 } from 'lucide-react';
 import daiNamLogo from '../assets/fitdnu_logo.png';
+import backgroundDaiNam from '../assets/backgrounddainam.jpg';
 import { useAuth } from '../hooks/useAuth';
 import { useTeacherInfo, useTeacherDashboard } from '../hooks/useTeacherProfile';
+import { useDashboardStats } from '../hooks/useDashboardStats';
 import StudentHomePage from './StudentHomePage';
 import type { TeacherInfo, TeacherDashboardStats } from '../types';
 import CompanyDashboard from '../components/dashboards/CompanyDashboard';
@@ -133,11 +135,11 @@ const TeacherHomePage: React.FC<{ teacherInfo: TeacherInfo; dashboardStats: Teac
   dashboardStats 
 }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-      {/* Modern Hero Section */}
-      <div className="relative bg-gradient-to-br from-indigo-900 via-blue-800 to-purple-900 text-white overflow-hidden">
+    <div className="min-h-screen bg-white">
+      {/* Modern Hero Section với màu Đại Nam */}
+      <div className="relative bg-gradient-to-br from-blue-900 via-primary-800 to-primary-900 text-white overflow-hidden" style={{background: 'linear-gradient(135deg, #213f99 0%, #1a3280 50%, #12204d 100%)'}}>
         <div className="absolute inset-0 bg-black/20"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-600/20 to-secondary-600/20"></div>
         
         {/* Animated background elements */}
         <div className="absolute top-10 left-10 w-72 h-72 bg-white/5 rounded-full blur-3xl animate-pulse"></div>
@@ -533,28 +535,36 @@ const DefaultHomePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-orange-600 relative overflow-hidden">
-      {/* Animated Background Elements */}
+    <div 
+      className="min-h-screen relative overflow-hidden"
+      style={{
+        backgroundImage: `linear-gradient(rgba(33, 63, 153, 0.8), rgba(26, 50, 128, 0.9)), url(${backgroundDaiNam})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* Animated Background Elements - với opacity thấp hơn để không che background image */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-10 -left-4 w-96 h-96 bg-orange-500/20 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
-        <div className="absolute top-10 -right-4 w-96 h-96 bg-blue-500/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-orange-600/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
+        <div className="absolute top-10 -left-4 w-96 h-96 bg-orange-500/10 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
+        <div className="absolute top-10 -right-4 w-96 h-96 bg-blue-500/10 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-orange-600/10 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
         
-        {/* Geometric Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
+        {/* Geometric Pattern - opacity thấp hơn */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Header Section */}
         <div className="text-center mb-20">
-          {/* Logo */}
+          {/* Logo - To hơn với viền cam */}
           <div className="mx-auto w-32 h-32 mb-12 relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl shadow-2xl transform hover:scale-105 transition-all duration-300 hover:rotate-3"></div>
-            <div className="relative w-full h-full bg-white rounded-3xl shadow-xl p-4 flex items-center justify-center">
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300"></div>
+            <div className="relative w-full h-full bg-white rounded-full shadow-xl p-2 flex items-center justify-center">
               <img 
                 src={daiNamLogo} 
                 alt="Đại học Đại Nam" 
-                className="w-20 h-20 object-contain"
+                className="w-28 h-28 object-contain"
               />
             </div>
           </div>

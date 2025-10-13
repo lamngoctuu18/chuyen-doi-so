@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { LogOut, User, Menu, X, ChevronDown, Settings, MapPin, Phone, Mail, ChevronRight } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import daiNamLogo from '../assets/fitdnu_logo.png';
+import NotificationDropdown from './notifications/NotificationDropdown';
+import type { Notification } from '../types/notification';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, logout, isAuthenticated } = useAuth();
@@ -41,6 +43,43 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const handleLogout = () => {
     logout();
     navigate('/');
+  };
+
+  const handleNotificationClick = (notification: Notification) => {
+    // Navigate based on user role and notification type
+    if (notification.actionUrl) {
+      navigate(notification.actionUrl);
+    } else {
+      // Default navigation based on user role
+      switch (user?.role) {
+        case 'sinh-vien':
+          if (notification.actionType === 'report_deadline' || notification.actionType === 'report_submission') {
+            navigate('/student/submissions');
+          } else if (notification.actionType === 'registration') {
+            navigate('/internship-registration');
+          } else {
+            navigate('/');
+          }
+          break;
+        case 'giang-vien':
+          if (notification.actionType === 'report_submission') {
+            navigate('/reports');
+          } else if (notification.actionType === 'assignment') {
+            navigate('/company-evaluations');
+          } else {
+            navigate('/reports');
+          }
+          break;
+        case 'doanh-nghiep':
+          navigate('/my-interns');
+          break;
+        case 'admin':
+          navigate('/admin/reports');
+          break;
+        default:
+          navigate('/');
+      }
+    }
   };
 
   const navigationItems = [
@@ -85,9 +124,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Enhanced Header with Blue-Orange Theme */}
-      <nav className={`bg-gradient-to-r from-blue-900 via-blue-800 to-orange-600 border-b border-orange-400/30 sticky top-0 z-50 transition-all duration-300 ease-in-out backdrop-blur-md ${
+    <div className="min-h-screen bg-white flex flex-col">
+      {/* Enhanced Header với màu Đại Nam */}
+      <nav className={`bg-gradient-to-r from-primary-900 via-primary-800 to-secondary-600 border-b border-secondary-400/30 sticky top-0 z-50 transition-all duration-300 ease-in-out backdrop-blur-md ${
         isScrolled ? 'shadow-xl bg-opacity-95' : 'shadow-lg'
       }`}>
         <div className="px-4 sm:px-6 lg:px-8">
@@ -95,7 +134,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             {/* Enhanced Logo with Dai Nam Logo */}
             <div className="flex items-center min-w-0 flex-shrink-0">
               <Link to="/" className="flex items-center space-x-3 sm:space-x-4 group">
-                <div className="w-10 sm:w-12 h-10 sm:h-12 bg-white rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105 p-1">
+                <div className="w-10 sm:w-12 h-10 sm:h-12 bg-white rounded-full flex items-center justify-center flex-shrink-0 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105 p-0.5">
                   <img 
                     src={daiNamLogo} 
                     alt="Đại học Đại Nam" 
@@ -135,6 +174,11 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
             {/* Right side - User section */}
             <div className="hidden lg:flex items-center space-x-4 flex-shrink-0 ml-auto">
+              {/* Notification Dropdown - Only show when authenticated */}
+              {isAuthenticated && (
+                <NotificationDropdown onNotificationClick={handleNotificationClick} />
+              )}
+              
               {/* User Profile Section */}
               {!isAuthenticated ? (
                 <Link
@@ -250,6 +294,11 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 </Link>
               ) : (
                 <>
+                  {/* Mobile Notification Dropdown */}
+                  <div className="lg:hidden">
+                    <NotificationDropdown onNotificationClick={handleNotificationClick} />
+                  </div>
+                  
                   {/* Mobile User Avatar */}
                   <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center text-white font-semibold text-xs">
                     {user?.name?.charAt(0)?.toUpperCase() || 'U'}
@@ -377,7 +426,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               {/* University Info */}
               <div className="space-y-6">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg p-2">
+                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg p-1">
                     <img 
                       src={daiNamLogo} 
                       alt="Đại học Đại Nam" 

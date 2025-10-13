@@ -309,11 +309,11 @@ const StudentHomePage: React.FC = () => {
   const statusInfo = getStatusInfo(dashboardStats?.internshipStatus || 'not-registered');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      {/* Enhanced Hero Section */}
-      <div className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 text-white overflow-hidden">
+    <div className="min-h-screen bg-white">
+      {/* Enhanced Hero Section với màu Đại Nam */}
+      <div className="relative text-white overflow-hidden" style={{background: 'linear-gradient(135deg, #213f99 0%, #1a3280 50%, #f37320 100%)'}}>
         {/* Background Decorations */}
-        <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+        <div className="absolute inset-0 bg-black bg-opacity-10"></div>
         <div className="absolute top-0 left-0 w-full h-full">
           <div className="absolute top-10 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full animate-float"></div>
           <div className="absolute top-32 right-20 w-16 h-16 bg-white bg-opacity-10 rounded-full animate-float" style={{ animationDelay: '1s' }}></div>

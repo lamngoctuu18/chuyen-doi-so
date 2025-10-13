@@ -56,10 +56,10 @@ const CompanyDashboard: React.FC = () => {
   const diaChi = company?.dia_chi_cong_ty || 'Chưa cập nhật';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 py-8">
+    <div className="min-h-screen bg-white py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        {/* Hero Section with Company Welcome */}
-        <div className="relative bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-3xl shadow-2xl overflow-hidden">
+        {/* Hero Section with Company Welcome - Màu Đại Nam */}
+        <div className="relative rounded-3xl shadow-2xl overflow-hidden" style={{background: 'linear-gradient(135deg, #213f99 0%, #1a3280 50%, #f37320 100%)'}}>
           <div className="absolute inset-0">
             <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -translate-y-48 translate-x-48 animate-pulse"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full translate-y-32 -translate-x-32 animate-pulse"></div>
@@ -118,6 +118,7 @@ const CompanyDashboard: React.FC = () => {
                     </div>
                   </div>
                 </div>
+
               </div>
               
               <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 border border-white/20 lg:ml-8">

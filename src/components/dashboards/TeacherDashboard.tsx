@@ -61,10 +61,10 @@ const TeacherDashboard: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg p-6 text-white">
+      {/* Header - Màu Đại Nam */}
+      <div className="rounded-lg p-6 text-white" style={{background: 'linear-gradient(135deg, #213f99 0%, #f37320 100%)'}}>
         <h1 className="text-3xl font-bold mb-2">Chào mừng, {teacherInfo.hoTen}!</h1>
-        <p className="text-green-100">Mã giảng viên: {teacherInfo.maGV} | Chuyên môn: {teacherInfo.chuyenMon}</p>
+        <p className="text-white/90">Mã giảng viên: {teacherInfo.maGV} | Chuyên môn: {teacherInfo.chuyenMon}</p>
       </div>
 
       {/* Statistics Cards removed */}

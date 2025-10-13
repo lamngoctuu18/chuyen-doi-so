@@ -200,8 +200,10 @@ const AdminLoginPage: React.FC = () => {
       <div className="max-w-md w-full space-y-8 relative z-10">
         {/* Enhanced Header */}
         <div className="text-center">
-          <div className="mx-auto w-24 h-24 bg-white/10 backdrop-blur-sm rounded-3xl flex items-center justify-center mb-8 shadow-2xl transform hover:scale-105 transition-all duration-300 hover:rotate-3 border border-blue-500/30">
-            <img src={daiNamLogo} alt="Dai Nam University" className="h-12 w-12 drop-shadow-lg" />
+          <div className="mx-auto w-20 h-20 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mb-8 shadow-2xl transform hover:scale-105 transition-all duration-300 border border-blue-500/30 p-1">
+            <div className="w-full h-full bg-white rounded-full flex items-center justify-center p-0.5">
+              <img src={daiNamLogo} alt="Dai Nam University" className="w-full h-full object-contain drop-shadow-lg" />
+            </div>
           </div>
           <h2 className="text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-orange-100 bg-clip-text text-transparent mb-3 animate-fade-in">
             Admin Portal

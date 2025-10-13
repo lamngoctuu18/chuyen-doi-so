@@ -20,6 +20,7 @@ interface StudentProfile {
   dia_chi_cong_ty?: string;
   nguoi_lien_he_cong_ty?: string;
   sdt_nguoi_lien_he?: string;
+  cv_path?: string;
 }
 
 interface InternshipRegistrationData {
@@ -30,6 +31,7 @@ interface InternshipRegistrationData {
   dia_chi_cong_ty?: string;
   nguoi_lien_he_cong_ty?: string;
   sdt_nguoi_lien_he?: string;
+  cv_file?: File | null;
 }
 
 export const useStudentInternship = () => {
@@ -78,13 +80,33 @@ export const useStudentInternship = () => {
     
     try {
       const token = localStorage.getItem('token');
+      
+      // Use FormData if CV file is present
+      let body: FormData | string;
+      let headers: Record<string, string> = {
+        'Authorization': `Bearer ${token}`,
+      };
+
+      if (data.cv_file) {
+        const formData = new FormData();
+        Object.entries(data).forEach(([key, value]) => {
+          if (key === 'cv_file' && value instanceof File) {
+            formData.append('cv_file', value);
+          } else if (value !== undefined && value !== null) {
+            formData.append(key, String(value));
+          }
+        });
+        body = formData;
+        // Don't set Content-Type for FormData, let browser set it with boundary
+      } else {
+        headers['Content-Type'] = 'application/json';
+        body = JSON.stringify(data);
+      }
+
       const response = await fetch(`${API_BASE_URL}/sinh-vien/register-internship`, {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+        headers,
+        body,
       });
 
       if (!response.ok) {

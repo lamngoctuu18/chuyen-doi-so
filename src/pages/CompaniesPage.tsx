@@ -122,7 +122,7 @@ const CompaniesPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-pink-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-pink-100 w-full">
       {/* Modern Header */}
       <div className="relative overflow-hidden bg-gradient-to-r from-purple-900 via-pink-900 to-indigo-900">
         <div className="absolute inset-0">
@@ -130,9 +130,9 @@ const CompaniesPage: React.FC = () => {
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-pink-400/20 to-indigo-400/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
         </div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="relative w-full px-0 py-12">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between">
-            <div>
+            <div className="px-4">
               <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
                 Quản lý Doanh nghiệp
               </h1>
@@ -141,7 +141,7 @@ const CompaniesPage: React.FC = () => {
               </p>
             </div>
             
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4 px-4">
               {/* Hidden file input */}
               <input
                 type="file"
@@ -220,8 +220,8 @@ const CompaniesPage: React.FC = () => {
       </div>
 
       {/* Modern Search and Controls */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 p-8 mb-8">
+  <div className="max-w-none mx-auto px-2 sm:px-4 lg:px-8 xl:px-12 2xl:px-16 py-8">
+        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 p-8 mb-8 mx-4">
           <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
             {/* Modern Search Section */}
             <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center flex-1">
@@ -273,7 +273,7 @@ const CompaniesPage: React.FC = () => {
         </div>
 
         {/* Modern Table Container */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 overflow-hidden">
+        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 overflow-hidden mx-4">
           <HorizontalScrollTable tableMinWidth="2320px" maxHeight="70vh">
         <thead className="bg-gray-50 sticky top-0 z-10">
           <tr>

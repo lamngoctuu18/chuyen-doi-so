@@ -1,23 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Calendar, Users, Building2, AlertCircle, CheckCircle, Clock, Edit, Eye, Plus } from 'lucide-react';
+import { Search, Calendar, Users, AlertCircle, CheckCircle, Clock, Eye, Plus } from 'lucide-react';
 import { useInternshipBatches } from '../hooks/useInternships';
 import { useAuth } from '../hooks/useAuth';
 
-interface CompanyRegistration {
-  id: string;
-  dotThucTapId: string;
-  doanhNghiepId: string;
-  viTriTuyen: string;
-  soLuongTuyen: number;
-  yeuCauKyNang: string;
-  moTaCongViec: string;
-  luongKhoang: string;
-  diaChiLamViec: string;
-  trangThai: 'cho-duyet' | 'da-duyet' | 'tu-choi';
-  ghiChu?: string;
-  createdAt: string;
-  updatedAt: string;
-}
+// CompanyRegistration interface removed as it's not used after cleanup
 
 const CompanyInternshipRegistration: React.FC = () => {
   const { user } = useAuth();
@@ -25,7 +11,7 @@ const CompanyInternshipRegistration: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBatch, setSelectedBatch] = useState<any>(null);
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
-  const [registrations, setRegistrations] = useState<CompanyRegistration[]>([]);
+  // const [registrations, setRegistrations] = useState<CompanyRegistration[]>([]);
   const [registeredBatchIds, setRegisteredBatchIds] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     viTriTuyen: '',
@@ -253,7 +239,7 @@ const CompanyInternshipRegistration: React.FC = () => {
                       </span>
                     </div>
                     <div className="flex items-center text-sm text-gray-600">
-                      <Building2 className="w-4 h-4 mr-2" />
+                      <Users className="w-4 h-4 mr-2" />
                       <span>{batch.soDoanhNghiepThamGia || 0} doanh nghiệp</span>
                     </div>
                     <div className="flex items-center text-sm text-gray-600">

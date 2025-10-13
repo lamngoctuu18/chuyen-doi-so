@@ -5,26 +5,119 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+        // Màu chính của Đại học Đại Nam
+        primary: {
+          50: '#f0f4ff',
+          100: '#e6edff',
+          200: '#d1ddff',
+          300: '#b3c5ff',
+          400: '#8fa3ff',
+          500: '#213f99', // Màu chính
+          600: '#1e3a8a',
+          700: '#1a3280',
+          800: '#162966',
+          900: '#12204d',
+        },
+        secondary: {
+          50: '#fef6ee',
+          100: '#fdebd7',
+          200: '#fbd3ae',
+          300: '#f7b27a',
+          400: '#f37320', // Màu phụ chính
+          500: '#f37320',
+          600: '#d65d1a',
+          700: '#b34a15',
+          800: '#8f3a11',
+          900: '#732f0e',
+        },
+        accent: {
+          50: '#fef1e9',
+          100: '#fddcc9',
+          200: '#fab393',
+          300: '#f68a5d',
+          400: '#f37320',
+          500: '#f37320',
+          600: '#d65d1a',
+          700: '#b34a15',
+          800: '#8f3a11',
+          900: '#732f0e',
+        },
+        success: {
+          50: '#E8F5E9',
+          100: '#C8E6C9',
+          200: '#A5D6A7',
+          300: '#81C784',
+          400: '#66BB6A',
+          500: '#00C853',
+          600: '#009624',
+          700: '#006400',
+          800: '#004D00',
+          900: '#003300',
+        },
+        text: {
+          primary: '#1c2337',
+          secondary: '#213f99',
+          tertiary: '#6b7280',
+        },
+        background: {
+          primary: '#FFFFFF',
+          secondary: '#FFFFFF',
+          tertiary: '#FFFFFF',
+        },
+        border: {
+          DEFAULT: '#e5e7eb',
+          focus: '#213f99',
+        }
+      },
+      fontFamily: {
+        sans: ['system-ui', 'Avenir', 'Helvetica', 'Arial', 'sans-serif'],
+        display: ['system-ui', 'Avenir', 'Helvetica', 'Arial', 'sans-serif'],
+      },
+      fontSize: {
+        'xs': ['0.75rem', { lineHeight: '1rem' }],
+        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+        'base': ['0.9375rem', { lineHeight: '1.5rem' }],
+        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+        'xl': ['1.25rem', { lineHeight: '1.75rem' }],
+        '2xl': ['1.5rem', { lineHeight: '2rem' }],
+        '3xl': ['1.875rem', { lineHeight: '2.25rem' }],
+        '4xl': ['2.25rem', { lineHeight: '2.5rem' }],
+        '5xl': ['3rem', { lineHeight: '1' }],
+      },
+      boxShadow: {
+        'sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+        'DEFAULT': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        'md': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        'lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        'xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+        '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+        'primary': '0 4px 12px rgba(0, 82, 204, 0.25)',
+        'primary-lg': '0 8px 16px rgba(0, 82, 204, 0.35)',
+        'secondary': '0 4px 12px rgba(255, 139, 0, 0.25)',
+        'accent': '0 4px 12px rgba(0, 184, 212, 0.25)',
+      },
+      borderRadius: {
+        'sm': '0.375rem',
+        'DEFAULT': '0.5rem',
+        'md': '0.5rem',
+        'lg': '0.75rem',
+        'xl': '1rem',
+        '2xl': '1.5rem',
+        '3xl': '2rem',
+      },
       animation: {
-        'blob': 'blob 7s infinite',
+        'fadeInUp': 'fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+        'slideInLeft': 'slideInLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+        'slideInRight': 'slideInRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+        'slideDown': 'slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+        'pulse-soft': 'pulse-soft 2.5s ease-in-out infinite',
+        'float': 'float 3s ease-in-out infinite',
+        'shimmer': 'shimmer 1.5s infinite',
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'shake': 'shake 0.5s ease-in-out',
       },
       keyframes: {
-        blob: {
-          '0%': {
-            transform: 'translate(0px, 0px) scale(1)',
-          },
-          '33%': {
-            transform: 'translate(30px, -50px) scale(1.1)',
-          },
-          '66%': {
-            transform: 'translate(-20px, 20px) scale(0.9)',
-          },
-          '100%': {
-            transform: 'translate(0px, 0px) scale(1)',
-          },
-        },
         fadeIn: {
           '0%': { opacity: '0', transform: 'translateY(-10px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
@@ -35,9 +128,14 @@ export default {
           '20%, 40%, 60%, 80%': { transform: 'translateX(2px)' },
         },
       },
-      animationDelay: {
-        '2000': '2s',
-        '4000': '4s',
+      transitionTimingFunction: {
+        'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',
+      },
+      spacing: {
+        '18': '4.5rem',
+        '88': '22rem',
+        '112': '28rem',
+        '128': '32rem',
       },
     },
   },
