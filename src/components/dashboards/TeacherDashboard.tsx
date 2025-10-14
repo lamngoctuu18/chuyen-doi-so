@@ -157,25 +157,59 @@ const TeacherDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Quick Actions */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Thao tác nhanh</h2>
+      {/* Enhanced Quick Actions */}
+      <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/20 p-8 hover:shadow-2xl transition-all duration-300">
+        <div className="flex items-center space-x-4 mb-6">
+          <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl shadow-lg">
+            <Users className="h-8 w-8 text-white" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">Thao tác nhanh</h2>
+            <p className="text-gray-600 font-medium">Các chức năng thường sử dụng</p>
+          </div>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button className="p-4 text-left bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
-            <FileCheck className="w-8 h-8 text-blue-600 mb-2" />
-            <h3 className="font-medium text-gray-900">Chấm báo cáo</h3>
-            <p className="text-sm text-gray-600">Duyệt và chấm điểm báo cáo</p>
-          </button>
-          <button className="p-4 text-left bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
-            <Users className="w-8 h-8 text-green-600 mb-2" />
-            <h3 className="font-medium text-gray-900">Quản lý sinh viên</h3>
-            <p className="text-sm text-gray-600">Theo dõi tiến độ sinh viên</p>
-          </button>
-          <button className="p-4 text-left bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
-            <BookOpen className="w-8 h-8 text-purple-600 mb-2" />
-            <h3 className="font-medium text-gray-900">Lập lịch họp</h3>
-            <p className="text-sm text-gray-600">Tạo cuộc họp với sinh viên</p>
-          </button>
+          {/* Chấm báo cáo */}
+          <div className="group">
+            <div className="relative h-full">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/30 to-indigo-600/30 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+              <button className="relative w-full h-full p-5 text-left bg-gradient-to-br from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 rounded-2xl border border-blue-200/50 hover:border-blue-300 transition-all duration-300 hover:shadow-xl hover:scale-105">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-3 shadow-lg">
+                  <FileCheck className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="font-bold text-gray-900 mb-1.5 text-base whitespace-nowrap">Chấm báo cáo</h3>
+                <p className="text-xs text-gray-600 leading-snug line-clamp-2">Duyệt và chấm điểm báo cáo thực tập</p>
+              </button>
+            </div>
+          </div>
+
+          {/* Quản lý sinh viên */}
+          <div className="group">
+            <div className="relative h-full">
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/30 to-green-600/30 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+              <button className="relative w-full h-full p-5 text-left bg-gradient-to-br from-emerald-50 to-green-50 hover:from-emerald-100 hover:to-green-100 rounded-2xl border border-emerald-200/50 hover:border-emerald-300 transition-all duration-300 hover:shadow-xl hover:scale-105">
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center mb-3 shadow-lg">
+                  <Users className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="font-bold text-gray-900 mb-1.5 text-base whitespace-nowrap">Quản lý SV</h3>
+                <p className="text-xs text-gray-600 leading-snug line-clamp-2">Theo dõi tiến độ sinh viên hướng dẫn</p>
+              </button>
+            </div>
+          </div>
+
+          {/* Báo cáo thống kê */}
+          <div className="group">
+            <div className="relative h-full">
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-600/30 to-pink-600/30 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+              <button className="relative w-full h-full p-5 text-left bg-gradient-to-br from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 rounded-2xl border border-purple-200/50 hover:border-purple-300 transition-all duration-300 hover:shadow-xl hover:scale-105">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-3 shadow-lg">
+                  <BookOpen className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="font-bold text-gray-900 mb-1.5 text-base whitespace-nowrap">Báo cáo thống kê</h3>
+                <p className="text-xs text-gray-600 leading-snug line-clamp-2">Xem báo cáo và thống kê chi tiết</p>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

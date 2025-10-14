@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { User, Lock, Eye, EyeOff, LogIn, Shield, AlertTriangle, Clock } from 'lucide-react';
+import { User, Lock, Eye, EyeOff, LogIn, AlertTriangle, Clock } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import daiNamLogo from '../assets/fitdnu_logo.png';
 
@@ -186,7 +186,7 @@ const AdminLoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-orange-800 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden" style={{background: 'linear-gradient(135deg, #213f99 0%, #213f99 50%, #f37320 100%)'}}>
       {/* Enhanced Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-10 -left-4 w-72 h-72 bg-orange-500/10 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
@@ -210,28 +210,6 @@ const AdminLoginPage: React.FC = () => {
           </h2>
           <p className="text-red-300 text-lg font-semibold">Quản trị viên hệ thống - Khoa CNTT</p>
           <div className="w-32 h-1 bg-gradient-to-r from-red-500 to-gray-400 mx-auto mt-4 rounded-full"></div>
-        </div>
-
-        {/* Enhanced Security Warning */}
-        <div className="bg-blue-900/30 backdrop-blur-md border border-blue-500/40 rounded-2xl p-6 shadow-xl">
-          <div className="text-center">
-            <div className="w-12 h-12 bg-gradient-to-br from-orange-600 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-              <span className="text-2xl">🛡️</span>
-            </div>
-            <h3 className="text-blue-200 font-bold mb-3 text-lg">
-              KHU VỰC BẢO MẬT
-            </h3>
-            <p className="text-blue-300 text-sm mb-4 leading-relaxed">
-              Chỉ dành cho quản trị viên hệ thống được ủy quyền. Mọi truy cập trái phép sẽ bị ghi log và xử lý theo quy định.
-            </p>
-            <div className="bg-gradient-to-r from-orange-600/20 to-blue-600/20 backdrop-blur-sm border border-blue-400/30 rounded-xl p-3 mt-4">
-              <p className="text-blue-200 text-sm font-medium flex items-center justify-center gap-2">
-                <AlertTriangle className="h-4 w-4" />
-                <span className="animate-pulse">⚠️</span>
-                Hệ thống giám sát hoạt động 24/7
-              </p>
-            </div>
-          </div>
         </div>
 
         {/* Enhanced Login Form */}
@@ -314,7 +292,7 @@ const AdminLoginPage: React.FC = () => {
                           ? 'border-red-500/70 bg-red-800/30 focus:ring-red-400 focus:border-red-400 hover:bg-red-800/40' 
                           : 'border-red-600/50 focus:ring-red-400 focus:border-red-400 hover:bg-gray-800/60'
                     }`}
-                    placeholder="admin001, admin_system..."
+                    placeholder="nhập tên..."
                   />
                 </div>
                 {userId && !userId.toLowerCase().includes('admin') && (
@@ -399,35 +377,6 @@ const AdminLoginPage: React.FC = () => {
                 </Link>
               </div>
             </form>
-          </div>
-        </div>
-
-        {/* Enhanced Footer Security Notice */}
-        <div className="bg-gray-900/40 backdrop-blur-md border border-gray-600/50 rounded-2xl p-6 shadow-xl">
-          <div className="text-center text-sm text-gray-300 space-y-3">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Shield className="h-5 w-5 text-red-400 animate-pulse" />
-              <span className="font-bold text-red-300 text-lg">PHÂN QUYỀN CAO NHẤT</span>
-            </div>
-            <div className="space-y-2">
-              <p className="flex items-center justify-center gap-2">
-                🔒 <span className="font-medium">Mọi hoạt động đều được giám sát và ghi log</span>
-              </p>
-              <p className="flex items-center justify-center gap-2">
-                ⚠️ <span className="font-medium">Chỉ admin được ủy quyền mới có thể truy cập</span>
-              </p>
-              <p className="flex items-center justify-center gap-2 text-gray-400">
-                🕒 <span>Phiên làm việc tự động hết hạn sau 24 giờ</span>
-              </p>
-              <p className="flex items-center justify-center gap-2 text-gray-400">
-                📊 <span>Hệ thống theo dõi IP và thiết bị truy cập</span>
-              </p>
-            </div>
-            <div className="mt-4 p-3 bg-red-900/30 backdrop-blur-sm border border-red-500/40 rounded-xl">
-              <p className="text-red-200 font-medium text-xs">
-                🚨 BẢO MẬT TUYỆT ĐỐI - KHÔNG CHIA SẺ THÔNG TIN ĐĂNG NHẬP
-              </p>
-            </div>
           </div>
         </div>
       </div>

@@ -188,35 +188,11 @@ const LoginPage: React.FC = () => {
               />
             </div>
           </div>
-          <h2 className="text-4xl font-bold bg-gradient-to-r from-white via-orange-100 to-blue-100 bg-clip-text text-transparent mb-3 animate-fade-in">
+          <h2 className="text-4xl font-bold bg-gradient-to-r from-white via-orange-100 to-blue-100 bg-clip-text text-transparent mb-3 animate-fade-in" style={{ lineHeight: '1.5' }}>
             Đăng nhập
           </h2>
           <p className="text-orange-100 text-lg font-medium">Hệ thống quản lý thực tập - Khoa Công nghệ Thông tin</p>
           <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-blue-500 mx-auto mt-4 rounded-full"></div>
-        </div>
-
-        {/* Enhanced Information Notice */}
-        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-xl">
-          <div className="text-center">
-            <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-              <span className="text-2xl">📝</span>
-            </div>
-            <p className="text-white font-semibold mb-3 text-lg">
-              Hệ thống đăng nhập dành cho sinh viên, giảng viên và doanh nghiệp
-            </p>
-            <p className="text-blue-100 text-sm mb-4 leading-relaxed">
-              Tài khoản được cấp bởi quản trị viên hệ thống. Vui lòng liên hệ admin nếu chưa có tài khoản.
-            </p>
-            {Object.values(savedAccounts).some(accounts => accounts.length > 0) && (
-              <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 backdrop-blur-sm border border-green-400/30 rounded-xl p-3 mt-4">
-                <p className="text-green-100 text-sm font-medium flex items-center justify-center gap-2">
-                  <Save className="h-4 w-4" />
-                  <span className="animate-pulse">✨</span>
-                  Hệ thống đã lưu tài khoản của bạn - Chọn vai trò để tự động điền!
-                </p>
-              </div>
-            )}
-          </div>
         </div>
 
         {/* Enhanced Login Form */}

@@ -7,7 +7,7 @@ const AdminStatsPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-primary-800 to-primary-900 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{background: 'linear-gradient(135deg, #213f99 0%, #213f99 50%, #f37320 100%)'}}>
         <div className="text-center text-white">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto"></div>
           <p className="mt-4">Đang tải thống kê...</p>
@@ -18,7 +18,7 @@ const AdminStatsPage: React.FC = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-primary-800 to-primary-900 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{background: 'linear-gradient(135deg, #213f99 0%, #213f99 50%, #f37320 100%)'}}>
         <div className="text-center text-white">
           <p className="text-red-400 mb-4">Có lỗi xảy ra: {error}</p>
           <button 
@@ -35,8 +35,8 @@ const AdminStatsPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section với thống kê */}
-      <div className="relative bg-gradient-to-br from-blue-900 via-primary-800 to-primary-900 text-white overflow-hidden" style={{background: 'linear-gradient(135deg, #213f99 0%, #1a3280 50%, #12204d 100%)'}}>
-        <div className="absolute inset-0 bg-black/20"></div>
+      <div className="relative text-white overflow-hidden" style={{background: 'linear-gradient(135deg, #213f99 0%, #213f99 50%, #f37320 100%)'}}>
+        <div className="absolute inset-0 bg-black/10"></div>
         
         {/* Animated background elements */}
         <div className="absolute top-10 left-10 w-72 h-72 bg-white/5 rounded-full blur-3xl animate-pulse"></div>

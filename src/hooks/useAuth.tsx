@@ -23,7 +23,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     // Check for stored auth on app start
     const storedUser = localStorage.getItem('user');
-    if (storedUser) {
+    const token = localStorage.getItem('token');
+    if (storedUser && token) {
       try {
         const user = JSON.parse(storedUser);
         setAuthState({
@@ -33,6 +34,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         });
       } catch (error) {
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
         setAuthState({
           user: null,
           isAuthenticated: false,
@@ -42,6 +44,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } else {
       setAuthState(prev => ({ ...prev, loading: false }));
     }
+
+    // listen for external logout requests (e.g., from contexts on 401/403)
+    const onExternalLogout = () => {
+      setAuthState({ user: null, isAuthenticated: false, loading: false });
+    };
+    window.addEventListener('auth:logout', onExternalLogout as EventListener);
+    return () => window.removeEventListener('auth:logout', onExternalLogout as EventListener);
   }, []);
 
   const login = async (userId: string, password: string, role?: string): Promise<boolean> => {
@@ -140,6 +149,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       loading: false
     });
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    try {
+      window.dispatchEvent(new CustomEvent('auth:logout'));
+    } catch {}
   };
 
   const value: AuthContextType = {

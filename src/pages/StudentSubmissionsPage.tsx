@@ -80,7 +80,7 @@ const StudentSubmissionsPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8">
       <div className="max-w-7xl mx-auto px-4 space-y-8">
         {/* Enhanced Modern Header */}
-        <div className="relative bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-700 rounded-3xl shadow-2xl p-8 text-white overflow-hidden">
+        <div className="relative rounded-3xl shadow-2xl p-8 text-white overflow-hidden" style={{background: 'linear-gradient(135deg, #213f99 0%, #213f99 50%, #f37320 100%)'}}>
           {/* Background decoration */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-32 translate-x-32"></div>
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-24 -translate-x-24"></div>
@@ -92,20 +92,20 @@ const StudentSubmissionsPage: React.FC = () => {
                   <Upload className="h-8 w-8 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-white to-emerald-100 bg-clip-text text-transparent">
+                  <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-white to-orange-100 bg-clip-text text-transparent" style={{ lineHeight: '1.5' }}>
                     Nộp Báo cáo
                   </h1>
-                  <p className="text-emerald-100 text-lg font-medium">Gửi báo cáo thực tập của bạn một cách dễ dàng</p>
+                  <p className="text-blue-100 text-lg font-medium">Gửi báo cáo thực tập của bạn một cách dễ dàng</p>
                 </div>
               </div>
               <div className="flex items-center space-x-6 text-sm">
                 <div className="flex items-center space-x-2">
                   <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                  <span className="text-emerald-100">Hỗ trợ nhiều định dạng file</span>
+                  <span className="text-blue-100">Hỗ trợ nhiều định dạng file</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                  <span className="text-emerald-100">Tối đa 25MB mỗi file</span>
+                  <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
+                  <span className="text-blue-100">Tối đa 25MB mỗi file</span>
                 </div>
               </div>
             </div>

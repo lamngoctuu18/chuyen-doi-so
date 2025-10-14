@@ -17,8 +17,6 @@ import InternshipsPage from './pages/InternshipsPage';
 import TeacherReportsPage from './pages/TeacherReportsPage';
 import TeacherCompanyEvaluationsPage from './pages/TeacherCompanyEvaluationsPage';
 import InternshipReportsManagementPage from './pages/InternshipReportsManagementPage';
-// import AdminReportsManagementSimple from './pages/AdminReportsManagementSimple';
-// import TestAdminReports from './pages/TestAdminReports';
 import ProfilePage from './pages/ProfilePage';
 import AdminDashboard from './pages/AdminDashboard';
 import ImportAccountsPage from './pages/ImportAccountsPage';

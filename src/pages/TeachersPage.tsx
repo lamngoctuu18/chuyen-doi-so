@@ -123,7 +123,7 @@ const TeachersPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-teal-100 w-full">
       {/* Modern Header */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-emerald-900 via-teal-900 to-green-900">
+      <div className="relative overflow-hidden" style={{background: 'linear-gradient(135deg, #213f99 0%, #213f99 50%, #f37320 100%)'}}>
         <div className="absolute inset-0">
           <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-emerald-400/20 to-teal-400/20 rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-teal-400/20 to-green-400/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
@@ -169,87 +169,7 @@ const TeachersPage: React.FC = () => {
                 Xuất Excel
               </button>
               
-              <button
-                className="inline-flex items-center px-6 py-3 bg-amber-600 text-white rounded-2xl hover:bg-amber-700 transition-all duration-300 shadow-lg"
-                onClick={async () => {
-                  try {
-                    const resp = await fetch('http://localhost:3001/api/sinh-vien-huong-dan/update-counts', {
-                      method: 'POST',
-                      headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-                    });
-                    const result = await resp.json();
-                    if (!resp.ok || !result.success) throw new Error(result.message || `HTTP ${resp.status}`);
-                    await hardRefresh();
-                    alert('Đã đồng bộ lại số lượng SV hướng dẫn từ bảng sinh_vien_huong_dan');
-                  } catch (e) {
-                    alert('Lỗi đồng bộ số lượng: ' + (e as Error).message);
-                  }
-                }}
-              >
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-                Đồng bộ SV HD
-              </button>
-              
-              <label className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white rounded-2xl hover:bg-emerald-700 transition-all duration-300 shadow-lg cursor-pointer">
-            <input
-              type="file"
-              accept=".xlsx,.xls,.XLSX,.XLS"
-              className="hidden"
-              onChange={async (e) => {
-                const file = e.target.files?.[0];
-                if (!file) return;
-                
-                // Validate file extension
-                const fileName = file.name.toLowerCase();
-                if (!fileName.endsWith('.xlsx') && !fileName.endsWith('.xls')) {
-                  alert('Vui lòng chọn file Excel (.xlsx hoặc .xls)');
-                  return;
-                }
-                
-                try {
-                  const formData = new FormData();
-                  formData.append('excelFile', file);
-                  
-                  const resp = await fetch('http://localhost:3001/api/sinh-vien-huong-dan/import', {
-                    method: 'POST',
-                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-                    body: formData
-                  });
-                  
-                  const result = await resp.json();
-                  
-                  if (result.success) {
-                    const processed = result.data?.totalProcessed || 0;
-                    const teachersAffected = result.data?.teacherCounts ? Object.keys(result.data.teacherCounts).length : 0;
-                    alert(`Import thành công!\n${result.message}\n\nĐã xử lý: ${processed} sinh viên, ${teachersAffected} giảng viên`);
-                    // Refresh dashboard after successful import
-                    refreshDashboardWithDelay();
-                    // Đồng bộ lại đếm để đảm bảo nhất quán và tải lại trang 1
-                    try {
-                      await fetch('http://localhost:3001/api/sinh-vien-huong-dan/update-counts', {
-                        method: 'POST',
-                        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-                      });
-                    } catch {}
-                    await hardRefresh();
-                  } else {
-                    alert('Lỗi import: ' + result.message);
-                  }
-                } catch (error) {
-                  alert('Lỗi import file: ' + (error as Error).message);
-                }
-                
-                // Reset input
-                e.target.value = '';
-              }}
-                />
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                </svg>
-                Import SV Hướng dẫn
-              </label>
+
             </div>
           </div>
         </div>

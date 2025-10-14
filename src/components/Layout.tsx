@@ -419,102 +419,102 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         </div>
         
         <div className="relative px-4 sm:px-6 lg:px-8 py-12">
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-[1600px] mx-auto">
             {/* Main Footer Content */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-12">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-12 mb-12">
               
               {/* University Info */}
-              <div className="space-y-6">
-                <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg p-1">
+              <div className="space-y-6 lg:col-span-1">
+                <div className="flex items-center space-x-3">
+                  <div className="w-14 h-14 lg:w-16 lg:h-16 bg-white rounded-full flex items-center justify-center shadow-lg flex-shrink-0 p-1">
                     <img 
                       src={daiNamLogo} 
                       alt="Đại học Đại Nam" 
                       className="w-full h-full object-contain"
                     />
                   </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-white">TRƯỜNG ĐẠI HỌC ĐẠI NAM</h3>
-                    <p className="text-orange-300 font-semibold">Khoa Công nghệ Thông tin</p>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-lg lg:text-xl xl:text-2xl font-bold text-white whitespace-nowrap overflow-hidden text-ellipsis">KHOA CÔNG NGHỆ THÔNG TIN</h3>
+                    <p className="text-orange-300 font-semibold text-sm lg:text-base">Trường Đại học Đại Nam</p>
                   </div>
                 </div>
                 
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-3">
-                    <div className="p-2 bg-orange-500/20 rounded-lg mt-1">
-                      <MapPin className="w-5 h-5 text-orange-300" />
+                <div className="space-y-3">
+                  <div className="flex items-start space-x-2">
+                    <div className="p-1.5 bg-orange-500/20 rounded-lg mt-0.5 flex-shrink-0">
+                      <MapPin className="w-4 h-4 text-orange-300" />
                     </div>
-                    <div>
-                      <p className="text-gray-300 font-medium">Địa chỉ:</p>
-                      <p className="text-white font-semibold">Số 1 Phố Xóm - Phú Lãm - Hà Đông - Hà Nội</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-orange-500/20 rounded-lg">
-                      <Phone className="w-5 h-5 text-orange-300" />
-                    </div>
-                    <div>
-                      <p className="text-gray-300 font-medium">Điện thoại:</p>
-                      <p className="text-white font-semibold">(024) 35577799</p>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-gray-300 font-medium text-xs lg:text-sm">Địa chỉ:</p>
+                      <p className="text-white font-semibold text-sm lg:text-base">Số 1 Phố Xóm - Phú Lãm - Hà Đông - Hà Nội</p>
                     </div>
                   </div>
                   
-                  <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-orange-500/20 rounded-lg">
-                      <Mail className="w-5 h-5 text-orange-300" />
+                  <div className="flex items-center space-x-2">
+                    <div className="p-1.5 bg-orange-500/20 rounded-lg flex-shrink-0">
+                      <Phone className="w-4 h-4 text-orange-300" />
                     </div>
-                    <div>
-                      <p className="text-gray-300 font-medium">Email:</p>
-                      <p className="text-white font-semibold">cntt@dainam.edu.vn</p>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-gray-300 font-medium text-xs lg:text-sm">Điện thoại:</p>
+                      <p className="text-white font-semibold text-sm lg:text-base">(024) 35577799</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    <div className="p-1.5 bg-orange-500/20 rounded-lg flex-shrink-0">
+                      <Mail className="w-4 h-4 text-orange-300" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-gray-300 font-medium text-xs lg:text-sm">Email:</p>
+                      <p className="text-white font-semibold text-sm lg:text-base">cntt@dainam.edu.vn</p>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Quick Links */}
-              <div className="space-y-6">
-                <h3 className="text-xl font-bold text-white mb-4">Liên kết nhanh</h3>
-                <div className="grid grid-cols-1 gap-3">
-                  <a href="/" className="flex items-center space-x-3 text-gray-300 hover:text-orange-300 transition-colors group">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full group-hover:bg-orange-300 transition-colors"></div>
+              <div className="space-y-4 lg:col-span-1">
+                <h3 className="text-lg lg:text-xl font-bold text-white">Liên kết nhanh</h3>
+                <div className="grid grid-cols-1 gap-2">
+                  <a href="/" className="flex items-center space-x-2 text-gray-300 hover:text-orange-300 transition-colors group text-sm lg:text-base">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full group-hover:bg-orange-300 transition-colors flex-shrink-0"></div>
                     <span>Trang chủ</span>
                   </a>
-                  <a href="/internship-registration" className="flex items-center space-x-3 text-gray-300 hover:text-orange-300 transition-colors group">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full group-hover:bg-orange-300 transition-colors"></div>
+                  <a href="/internship-registration" className="flex items-center space-x-2 text-gray-300 hover:text-orange-300 transition-colors group text-sm lg:text-base">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full group-hover:bg-orange-300 transition-colors flex-shrink-0"></div>
                     <span>Đăng ký thực tập</span>
                   </a>
-                  <a href="/student/submissions" className="flex items-center space-x-3 text-gray-300 hover:text-orange-300 transition-colors group">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full group-hover:bg-orange-300 transition-colors"></div>
+                  <a href="/student/submissions" className="flex items-center space-x-2 text-gray-300 hover:text-orange-300 transition-colors group text-sm lg:text-base">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full group-hover:bg-orange-300 transition-colors flex-shrink-0"></div>
                     <span>Nộp báo cáo</span>
                   </a>
-                  <a href="/profile" className="flex items-center space-x-3 text-gray-300 hover:text-orange-300 transition-colors group">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full group-hover:bg-orange-300 transition-colors"></div>
+                  <a href="/profile" className="flex items-center space-x-2 text-gray-300 hover:text-orange-300 transition-colors group text-sm lg:text-base">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full group-hover:bg-orange-300 transition-colors flex-shrink-0"></div>
                     <span>Thông tin cá nhân</span>
                   </a>
                 </div>
                 
-                <div className="pt-4 border-t border-gray-700">
-                  <h4 className="text-lg font-semibold text-white mb-3">Hỗ trợ</h4>
-                  <div className="space-y-2">
+                <div className="pt-3 border-t border-gray-700">
+                  <h4 className="text-base lg:text-lg font-semibold text-white mb-2">Hỗ trợ</h4>
+                  <div className="space-y-1.5">
                     {user?.role === 'sinh-vien' && (
-                      <Link to="/guide/student" className="block text-gray-300 hover:text-orange-300 transition-colors">Hướng dẫn sử dụng (Sinh viên)</Link>
+                      <Link to="/guide/student" className="block text-gray-300 hover:text-orange-300 transition-colors text-sm lg:text-base">Hướng dẫn sử dụng (Sinh viên)</Link>
                     )}
                     {user?.role === 'giang-vien' && (
-                      <Link to="/guide/teacher" className="block text-gray-300 hover:text-orange-300 transition-colors">Hướng dẫn sử dụng (Giảng viên)</Link>
+                      <Link to="/guide/teacher" className="block text-gray-300 hover:text-orange-300 transition-colors text-sm lg:text-base">Hướng dẫn sử dụng (Giảng viên)</Link>
                     )}
                     {user?.role === 'doanh-nghiep' && (
-                      <Link to="/guide/company" className="block text-gray-300 hover:text-orange-300 transition-colors">Hướng dẫn sử dụng (Doanh nghiệp)</Link>
+                      <Link to="/guide/company" className="block text-gray-300 hover:text-orange-300 transition-colors text-sm lg:text-base">Hướng dẫn sử dụng (Doanh nghiệp)</Link>
                     )}
-                    <a href="#faq" className="block text-gray-300 hover:text-orange-300 transition-colors">Câu hỏi thường gặp</a>
-                    <a href="#contact" className="block text-gray-300 hover:text-orange-300 transition-colors">Liên hệ hỗ trợ</a>
+                    <a href="#faq" className="block text-gray-300 hover:text-orange-300 transition-colors text-sm lg:text-base">Câu hỏi thường gặp</a>
+                    <a href="#contact" className="block text-gray-300 hover:text-orange-300 transition-colors text-sm lg:text-base">Liên hệ hỗ trợ</a>
                   </div>
                 </div>
               </div>
 
               {/* Interactive Map */}
-              <div className="space-y-6">
-                <h3 className="text-xl font-bold text-white mb-4">Bản đồ trường học</h3>
+              <div className="space-y-4 lg:col-span-1">
+                <h3 className="text-lg lg:text-xl font-bold text-white">Bản đồ trường học</h3>
                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
                   <div className="aspect-video bg-gray-800 rounded-xl overflow-hidden relative group cursor-pointer">
                     <iframe

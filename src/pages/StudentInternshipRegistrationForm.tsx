@@ -226,7 +226,7 @@ const StudentInternshipRegistrationForm: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8">
       <div className="max-w-5xl mx-auto px-4">
         {/* Enhanced Modern Header */}
-        <div className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 rounded-3xl shadow-2xl p-8 mb-8 text-white overflow-hidden">
+        <div className="relative rounded-3xl shadow-2xl p-8 mb-8 text-white overflow-hidden" style={{background: 'linear-gradient(135deg, #213f99 0%, #213f99 50%, #f37320 100%)'}}>
           {/* Background decoration */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-32 translate-x-32"></div>
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-24 -translate-x-24"></div>
@@ -238,7 +238,7 @@ const StudentInternshipRegistrationForm: React.FC = () => {
                   <BookOpen className="h-8 w-8 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+                  <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-white to-orange-100 bg-clip-text text-transparent" style={{ lineHeight: '1.5' }}>
                     Đăng ký Thực tập
                   </h1>
                   <p className="text-blue-100 text-lg font-medium">Bước quan trọng trong hành trình học tập của bạn</p>
@@ -250,7 +250,7 @@ const StudentInternshipRegistrationForm: React.FC = () => {
                   <span className="text-blue-100">Hệ thống hoạt động</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                  <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
                   <span className="text-blue-100">Thời gian đăng ký có hạn</span>
                 </div>
               </div>

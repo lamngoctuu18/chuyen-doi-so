@@ -94,6 +94,15 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
             : undefined,
         }));
         setNotifications(normalized);
+      } else if (response.status === 401 || response.status === 403) {
+        // Token missing/invalid/expired: clear local auth to stop repeated 403s
+        try {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          // Notify AuthProvider to update state
+          window.dispatchEvent(new CustomEvent('auth:logout'));
+        } catch {}
+        setNotifications([]);
       }
     } catch (error) {
       console.error('Failed to fetch notifications:', error);

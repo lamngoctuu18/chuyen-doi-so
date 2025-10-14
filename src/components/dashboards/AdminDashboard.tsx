@@ -6,13 +6,14 @@ import {
 } from 'lucide-react';
 import { useDashboardStats } from '../../hooks/useDashboardStats';
 import daiNamLogo from '../../assets/fitdnu_logo.png';
+import backgroundDaiNam from '../../assets/backgrounddainam.jpg';
 
 const AdminDashboard: React.FC = () => {
-  const { stats, loading, error } = useDashboardStats();
+  const { stats, loading } = useDashboardStats();
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 to-blue-800">
+      <div className="min-h-screen flex items-center justify-center" style={{background: 'linear-gradient(135deg, #213f99 0%, #213f99 50%, #f37320 100%)'}}>
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto mb-4"></div>
           <p className="text-white">Đang tải thống kê...</p>
@@ -32,15 +33,16 @@ const AdminDashboard: React.FC = () => {
   const currentStats = stats || defaultStats;
 
   return (
-    <div className="min-h-screen relative overflow-hidden" style={{background: 'linear-gradient(135deg, #213f99 0%, #1a3280 50%, #f37320 100%)'}}>
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-10 -left-4 w-96 h-96 bg-orange-500/10 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
-        <div className="absolute top-10 -right-4 w-96 h-96 bg-white/10 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-orange-600/10 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
-        
-        {/* Geometric Pattern */}  
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url(${backgroundDaiNam})`,
+        }}
+      >
+        {/* Overlay for better text readability */}
+        <div className="absolute inset-0" style={{background: 'linear-gradient(135deg, rgba(33, 63, 153, 0.85) 0%, rgba(33, 63, 153, 0.80) 50%, rgba(243, 115, 32, 0.85) 100%)'}}></div>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

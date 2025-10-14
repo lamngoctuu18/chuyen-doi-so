@@ -57,6 +57,13 @@ export const useStudents = (params: UseStudentsParams = {}) => {
       });
 
       if (!response.ok) {
+        if (response.status === 401 || response.status === 403) {
+          try {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.dispatchEvent(new CustomEvent('auth:logout'));
+          } catch {}
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -106,6 +113,13 @@ export const useStudentStats = () => {
       });
 
       if (!response.ok) {
+        if (response.status === 401 || response.status === 403) {
+          try {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.dispatchEvent(new CustomEvent('auth:logout'));
+          } catch {}
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -197,6 +211,13 @@ export const updateStudent = async (id: string | number, data: any) => {
     });
 
     if (!response.ok) {
+      if (response.status === 401 || response.status === 403) {
+        try {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          window.dispatchEvent(new CustomEvent('auth:logout'));
+        } catch {}
+      }
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
@@ -222,6 +243,13 @@ export const deleteStudent = async (id: string | number) => {
     });
 
     if (!response.ok) {
+      if (response.status === 401 || response.status === 403) {
+        try {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          window.dispatchEvent(new CustomEvent('auth:logout'));
+        } catch {}
+      }
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 

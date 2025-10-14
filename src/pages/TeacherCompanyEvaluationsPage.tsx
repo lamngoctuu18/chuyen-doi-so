@@ -124,112 +124,130 @@ const TeacherCompanyEvaluationsPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-      <div className="p-6 max-w-7xl mx-auto space-y-8">
-        {/* Modern Header */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 p-8 hover:shadow-2xl transition-all duration-300">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div className="flex items-center space-x-6">
-              <div className="p-4 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-3xl shadow-xl">
-                <Building2 className="h-12 w-12 text-white" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-orange-50">
+      <div className="w-full space-y-6">
+        {/* Modern Header với màu Đại Nam - Full Width */}
+        <div className="relative overflow-hidden shadow-xl" style={{background: 'linear-gradient(135deg, #213f99 0%, #213f99 50%, #f37320 100%)'}}>
+          <div className="absolute inset-0">
+            <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-orange-400/20 to-amber-400/20 rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-400/20 to-indigo-400/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
+          </div>
+          <div className="relative px-6 py-12">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                <div className="flex items-center space-x-6">
+                  <div className="p-4 bg-white/20 backdrop-blur-md rounded-3xl shadow-xl border border-white/30">
+                    <Building2 className="h-12 w-12 text-white" />
+                  </div>
+                  <div>
+                    <h1 className="text-4xl font-bold text-white mb-2" style={{ lineHeight: '1.5' }}>Đánh giá từ Doanh nghiệp</h1>
+                    <p className="text-white/90 text-lg font-medium" style={{ lineHeight: '1.5' }}>Xem và quản lý đánh giá sinh viên từ các doanh nghiệp thực tập</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 bg-white/20 backdrop-blur-md px-8 py-4 rounded-2xl border border-white/30 shadow-lg">
+                  <div className="p-2 bg-white/20 rounded-xl">
+                    <Building2 className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-white/80 text-xs font-medium">Tổng số đánh giá</p>
+                    <span className="text-white font-bold text-2xl">{evaluations.length}</span>
+                  </div>
+                </div>
               </div>
-              <div>
-                <h1 className="text-4xl font-bold text-gray-900 mb-2">Đánh giá từ Doanh nghiệp</h1>
-                <p className="text-gray-600 text-lg font-medium">Xem và quản lý đánh giá sinh viên từ các doanh nghiệp thực tập</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 bg-gradient-to-r from-indigo-50 to-blue-50 px-6 py-3 rounded-2xl border border-indigo-200">
-              <Building2 className="w-6 h-6 text-indigo-600" />
-              <span className="text-indigo-800 font-bold text-lg">{evaluations.length} đánh giá</span>
             </div>
           </div>
+        </div>
 
-          {/* Enhanced Info Banner */}
-          <div className="mt-8 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 border border-blue-200/60 rounded-2xl p-6 shadow-lg">
-            <div className="flex items-start gap-4">
-              <div className="p-3 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl shadow-lg">
-                <MessageSquare className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-blue-900 mb-2">💼 Đánh giá từ doanh nghiệp</h3>
-                <p className="text-blue-800 font-medium leading-relaxed">
-                  Doanh nghiệp có thể gửi điểm số và nhận xét chi tiết về sinh viên thực tập. 
-                  Các đánh giá này sẽ xuất hiện tại đây ngay sau khi doanh nghiệp gửi. 
-                  Bạn có thể sử dụng thông tin này để đánh giá tổng thể về quá trình thực tập của sinh viên.
-                </p>
-              </div>
+        <div className="max-w-7xl mx-auto px-6 space-y-6">
+        {/* Enhanced Info Banner */}
+        <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 border-2 border-blue-200/60 rounded-2xl p-6 shadow-lg">
+          <div className="flex items-start gap-4">
+            <div className="p-3 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl shadow-lg flex-shrink-0">
+              <MessageSquare className="w-6 h-6 text-white" />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-lg font-bold text-blue-900 mb-2 flex items-center gap-2">
+                <span>💼</span> Thông tin đánh giá
+              </h3>
+              <p className="text-blue-800 font-medium leading-relaxed text-sm">
+                Doanh nghiệp có thể gửi điểm số và nhận xét chi tiết về sinh viên thực tập. 
+                Các đánh giá này sẽ xuất hiện tại đây ngay sau khi doanh nghiệp gửi. 
+                Bạn có thể sử dụng thông tin này để đánh giá tổng thể về quá trình thực tập của sinh viên.
+              </p>
             </div>
           </div>
         </div>
 
         {/* Modern Stats Cards */}
         {stats && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/50 p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-semibold text-gray-600 mb-2">Tổng sinh viên</p>
-                  <p className="text-3xl font-bold text-gray-900">{stats.total_students}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl shadow-lg p-6 text-white hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+              <div className="flex items-center justify-between mb-3">
+                <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
+                  <Users className="w-7 h-7" />
                 </div>
-                <div className="p-3 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg">
-                  <Users className="w-6 h-6 text-white" />
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/50 p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-semibold text-gray-600 mb-2">Đã có đánh giá</p>
-                  <p className="text-3xl font-bold text-emerald-600">{stats.submitted_evaluations}</p>
-                </div>
-                <div className="p-3 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl shadow-lg">
-                  <CheckCircle className="w-6 h-6 text-white" />
+                <div className="text-right">
+                  <p className="text-xs font-medium text-white/80">Tổng SV</p>
+                  <p className="text-3xl font-bold">{stats.total_students}</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/50 p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-semibold text-gray-600 mb-2">Điểm TB</p>
-                  <p className="text-3xl font-bold text-purple-600">
+            <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl shadow-lg p-6 text-white hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+              <div className="flex items-center justify-between mb-3">
+                <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
+                  <CheckCircle className="w-7 h-7" />
+                </div>
+                <div className="text-right">
+                  <p className="text-xs font-medium text-white/80">Đã đánh giá</p>
+                  <p className="text-3xl font-bold">{stats.submitted_evaluations}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl shadow-lg p-6 text-white hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+              <div className="flex items-center justify-between mb-3">
+                <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
+                  <Star className="w-7 h-7" />
+                </div>
+                <div className="text-right">
+                  <p className="text-xs font-medium text-white/80">Điểm TB</p>
+                  <p className="text-3xl font-bold">
                     {stats.average_score ? stats.average_score.toFixed(1) : 'N/A'}
                   </p>
                 </div>
-                <div className="p-3 bg-gradient-to-br from-purple-500 to-violet-600 rounded-xl shadow-lg">
-                  <TrendingUp className="w-6 h-6 text-white" />
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl shadow-lg p-6 text-white hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+              <div className="flex items-center justify-between mb-3">
+                <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
+                  <TrendingUp className="w-7 h-7" />
+                </div>
+                <div className="text-right">
+                  <p className="text-xs font-medium text-white/80">Tỷ lệ</p>
+                  <p className="text-3xl font-bold">{stats.completion_rate}%</p>
                 </div>
               </div>
             </div>
-
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Tỷ lệ hoàn thành</p>
-                <p className="text-2xl font-bold text-orange-600">{stats.completion_rate}%</p>
-              </div>
-              <TrendingUp className="w-8 h-8 text-orange-600" />
-            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Filters */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="flex flex-col lg:flex-row gap-4">
+        {/* Enhanced Filters */}
+        <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 p-6">
+          <div className="flex flex-col lg:flex-row gap-4">
           {/* Search */}
           <div className="flex-1 max-w-md">
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-4 w-4 text-gray-400" />
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <Search className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 type="text"
                 placeholder="Tìm kiếm theo tên sinh viên, mã sinh viên..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="block w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="block w-full pl-11 pr-4 py-3 text-sm border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
               />
             </div>
           </div>
@@ -238,9 +256,9 @@ const TeacherCompanyEvaluationsPage: React.FC = () => {
           <select
             value={selectedCompany}
             onChange={(e) => setSelectedCompany(e.target.value)}
-            className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="px-4 py-3 text-sm border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white transition-all"
           >
-            <option value="all">Tất cả doanh nghiệp</option>
+            <option value="all">🏢 Tất cả doanh nghiệp</option>
             {companies.map(company => (
               <option key={company} value={company}>{company}</option>
             ))}
@@ -253,11 +271,11 @@ const TeacherCompanyEvaluationsPage: React.FC = () => {
               const val = e.target.value;
               setFilterHasScore(val === 'all' ? undefined : val === 'yes');
             }}
-            className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="px-4 py-3 text-sm border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white transition-all"
           >
-            <option value="all">Tất cả điểm</option>
-            <option value="yes">Đã chấm điểm</option>
-            <option value="no">Chưa chấm điểm</option>
+            <option value="all">⭐ Tất cả điểm</option>
+            <option value="yes">✅ Đã chấm điểm</option>
+            <option value="no">⏳ Chưa chấm điểm</option>
           </select>
 
           {/* Comment Filter */}
@@ -267,158 +285,184 @@ const TeacherCompanyEvaluationsPage: React.FC = () => {
               const val = e.target.value;
               setFilterHasComment(val === 'all' ? undefined : val === 'yes');
             }}
-            className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="px-4 py-3 text-sm border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white transition-all"
           >
-            <option value="all">Tất cả nhận xét</option>
-            <option value="yes">Đã có nhận xét</option>
-            <option value="no">Chưa có nhận xét</option>
+            <option value="all">💬 Tất cả nhận xét</option>
+            <option value="yes">✅ Có nhận xét</option>
+            <option value="no">⏳ Chưa có nhận xét</option>
           </select>
         </div>
       </div>
 
-      {/* Evaluations List */}
-      <div className="bg-white rounded-lg shadow-md">
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">
-            Danh sách đánh giá ({evaluations.length})
-          </h2>
+      {/* Enhanced Evaluations List */}
+      <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200">
+        <div className="px-6 py-5 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+              <Building2 className="w-6 h-6 text-blue-600" />
+              Danh sách đánh giá
+            </h2>
+            <span className="px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-semibold shadow-sm">
+              {evaluations.length} đánh giá
+            </span>
+          </div>
         </div>
 
         <div className="p-6">
           {loading ? (
-            <div className="text-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-              <p className="mt-2 text-gray-600">Đang tải dữ liệu...</p>
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent mx-auto"></div>
+              <p className="mt-4 text-gray-600 font-medium">Đang tải dữ liệu...</p>
             </div>
           ) : error ? (
-            <div className="text-center py-8 text-red-600">
-              <p>{error}</p>
+            <div className="text-center py-12">
+              <div className="bg-red-50 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                <MessageSquare className="w-10 h-10 text-red-500" />
+              </div>
+              <p className="text-red-600 font-semibold mb-4">{error}</p>
               <button
                 onClick={fetchData}
-                className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 font-semibold transition-all shadow-lg"
               >
                 Thử lại
               </button>
             </div>
           ) : evaluations.length === 0 ? (
-            <div className="text-center py-12 text-gray-500">
-              <div className="bg-gray-50 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-4">
-                <MessageSquare className="w-12 h-12 text-gray-300" />
+            <div className="text-center py-16">
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full w-28 h-28 flex items-center justify-center mx-auto mb-6 shadow-inner">
+                <MessageSquare className="w-14 h-14 text-blue-400" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Chưa có đánh giá từ doanh nghiệp</h3>
-              <p className="text-gray-600 max-w-md mx-auto">
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">Chưa có đánh giá từ doanh nghiệp</h3>
+              <p className="text-gray-600 max-w-md mx-auto text-lg">
                 Hiện tại chưa có doanh nghiệp nào gửi đánh giá cho sinh viên của bạn.
               </p>
             </div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-4">
               {evaluations.map((evaluation) => (
-                <div key={`${evaluation.id || evaluation.ma_sinh_vien}-${evaluation.ma_sinh_vien}`} className="border border-gray-200 rounded-lg p-6 hover:border-blue-300 transition-colors">
+                <div key={`${evaluation.id || evaluation.ma_sinh_vien}-${evaluation.ma_sinh_vien}`} className="border-2 border-gray-200 rounded-2xl p-6 hover:border-blue-400 hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-white to-blue-50/30">
                   {/* Student & Company Info */}
-                  <div className="flex justify-between items-start mb-4">
+                  <div className="flex justify-between items-start mb-5">
                     <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                          <span className="text-blue-600 font-semibold text-sm">
+                      <div className="flex items-center gap-4 mb-3">
+                        <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
+                          <span className="text-white font-bold text-lg">
                             {evaluation.ten_sinh_vien.split(' ').pop()?.charAt(0).toUpperCase()}
                           </span>
                         </div>
                         <div>
-                          <h3 className="text-lg font-semibold text-gray-900">{evaluation.ten_sinh_vien}</h3>
-                          <p className="text-sm text-gray-600">{evaluation.ma_sinh_vien} - {evaluation.lop}</p>
+                          <h3 className="text-xl font-bold text-gray-900">{evaluation.ten_sinh_vien}</h3>
+                          <p className="text-sm text-gray-600 font-medium">{evaluation.ma_sinh_vien} • {evaluation.lop}</p>
                         </div>
                       </div>
                       
-                      <div className="flex items-center gap-2 mt-2 p-2 bg-green-50 rounded-md">
-                        <Building2 className="w-4 h-4 text-green-600" />
-                        <div>
-                          <p className="text-xs text-green-600 font-medium">Doanh nghiệp thực tập</p>
-                          <p className="text-sm text-green-800">{evaluation.ten_cong_ty}</p>
+                      <div className="flex items-start gap-3 mt-4 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
+                        <div className="p-2 bg-green-500 rounded-lg flex-shrink-0">
+                          <Building2 className="w-5 h-5 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-xs text-green-700 font-semibold mb-1">DOANH NGHIỆP THỰC TẬP</p>
+                          <p className="text-base font-bold text-green-900">{evaluation.ten_cong_ty}</p>
                           {evaluation.vi_tri_thuc_tap && (
-                            <p className="text-xs text-indigo-700 mt-1">Nhóm thực tập: <span className="font-medium">{evaluation.vi_tri_thuc_tap}</span></p>
+                            <p className="text-sm text-indigo-700 mt-2 flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full"></span>
+                              Vị trí: <span className="font-semibold">{evaluation.vi_tri_thuc_tap}</span>
+                            </p>
                           )}
                         </div>
                       </div>
                     </div>
                     
-                    <div className="text-right">
-                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(evaluation.trang_thai_thuc_tap)}`}>
+                    <div className="text-right flex flex-col items-end gap-2">
+                      <span className={`inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold shadow-sm ${getStatusColor(evaluation.trang_thai_thuc_tap)}`}>
                         {getStatusText(evaluation.trang_thai_thuc_tap)}
                       </span>
                       {evaluation.ngay_nop_danh_gia && (
-                        <p className="text-xs text-gray-500 mt-2">
-                          <Clock className="w-3 h-3 inline mr-1" />
-                          Gửi: {new Date(evaluation.ngay_nop_danh_gia).toLocaleDateString('vi-VN')}
-                        </p>
+                        <div className="flex items-center gap-2 text-xs text-gray-600 bg-gray-100 px-3 py-2 rounded-lg">
+                          <Clock className="w-4 h-4" />
+                          <span className="font-medium">{new Date(evaluation.ngay_nop_danh_gia).toLocaleDateString('vi-VN')}</span>
+                        </div>
                       )}
                     </div>
                   </div>
 
-                  {/* Contact Info */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 text-sm">
-                    <div className="flex items-center text-gray-600">
-                      <Mail className="w-4 h-4 mr-2" />
-                      <span>{evaluation.email_sinh_vien}</span>
+                  {/* Contact & Period Info */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
+                    <div className="flex items-center gap-2 text-sm bg-blue-50 px-4 py-3 rounded-xl border border-blue-100">
+                      <Mail className="w-4 h-4 text-blue-600 flex-shrink-0" />
+                      <span className="text-gray-700 truncate">{evaluation.email_sinh_vien}</span>
                     </div>
-                    <div className="flex items-center text-gray-600">
-                      <Building2 className="w-4 h-4 mr-2" />
-                      <span>{evaluation.email_cong_ty}</span>
+                    <div className="flex items-center gap-2 text-sm bg-purple-50 px-4 py-3 rounded-xl border border-purple-100">
+                      <Building2 className="w-4 h-4 text-purple-600 flex-shrink-0" />
+                      <span className="text-gray-700 truncate">{evaluation.email_cong_ty}</span>
                     </div>
                   </div>
 
                   {/* Internship Period */}
                   {evaluation.ngay_bat_dau_thuc_tap && (
-                    <div className="flex items-center text-sm text-gray-600 mb-4">
-                      <Calendar className="w-4 h-4 mr-2" />
-                      <span>
-                        Thời gian thực tập: {' '}
-                        {new Date(evaluation.ngay_bat_dau_thuc_tap).toLocaleDateString('vi-VN')} - 
-                        {evaluation.ngay_ket_thuc_thuc_tap ? new Date(evaluation.ngay_ket_thuc_thuc_tap).toLocaleDateString('vi-VN') : 'Đang diễn ra'}
+                    <div className="flex items-center gap-2 text-sm bg-gradient-to-r from-indigo-50 to-purple-50 px-4 py-3 rounded-xl border border-indigo-200 mb-5">
+                      <Calendar className="w-5 h-5 text-indigo-600 flex-shrink-0" />
+                      <span className="text-gray-800 font-medium">
+                        Thời gian: {new Date(evaluation.ngay_bat_dau_thuc_tap).toLocaleDateString('vi-VN')} - {evaluation.ngay_ket_thuc_thuc_tap ? new Date(evaluation.ngay_ket_thuc_thuc_tap).toLocaleDateString('vi-VN') : 'Đang diễn ra'}
                       </span>
                     </div>
                   )}
 
-                  {/* Company Evaluation */}
-                  <div className="mt-4 border-t pt-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg p-4">
-                    <div className="flex items-center gap-2 text-sm font-medium text-gray-900 mb-3">
-                      <Star className="w-5 h-5 text-yellow-500" /> 
-                      <span>Đánh giá từ doanh nghiệp</span>
+                  {/* Company Evaluation - Enhanced */}
+                  <div className="mt-5 border-2 border-amber-200 rounded-2xl p-6 bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50">
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="p-2 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl shadow-lg">
+                        <Star className="w-6 h-6 text-white" />
+                      </div>
+                      <h4 className="text-lg font-bold text-gray-900">Đánh giá từ Doanh nghiệp</h4>
                     </div>
                     
-                    <div className="space-y-3">
-                      {/* Score */}
+                    <div className="space-y-4">
+                      {/* Score - Enhanced */}
                       {evaluation.diem_doanh_nghiep !== null && (
-                        <div className="flex items-center gap-3">
-                          <span className="text-sm font-medium text-gray-700 min-w-[60px]">Điểm số:</span>
-                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getScoreColor(evaluation.diem_doanh_nghiep)}`}>
+                        <div className="flex items-center justify-between p-4 bg-white rounded-xl border-2 border-amber-200">
+                          <div className="flex items-center gap-3">
+                            <div className="p-2 bg-amber-100 rounded-lg">
+                              <Star className="w-5 h-5 text-amber-600" />
+                            </div>
+                            <span className="text-base font-bold text-gray-800">Điểm đánh giá</span>
+                          </div>
+                          <span className={`inline-flex items-center px-5 py-2.5 rounded-xl text-lg font-bold shadow-md ${getScoreColor(evaluation.diem_doanh_nghiep)}`}>
                             {evaluation.diem_doanh_nghiep}/10
                           </span>
                         </div>
                       )}
 
-                      {/* Comment (always render with placeholder) */}
+                      {/* Comment - Enhanced */}
                       <div>
-                        <span className="text-sm font-medium text-gray-700 block mb-2">Nhận xét chi tiết:</span>
+                        <div className="flex items-center gap-2 mb-3">
+                          <MessageSquare className="w-5 h-5 text-amber-600" />
+                          <span className="text-base font-bold text-gray-800">Nhận xét chi tiết</span>
+                        </div>
                         {evaluation.nhan_xet_doanh_nghiep && evaluation.nhan_xet_doanh_nghiep.trim() ? (
-                          <div className="bg-white rounded-md p-3 border border-yellow-200">
-                            <p className="text-sm text-gray-800 whitespace-pre-wrap">{evaluation.nhan_xet_doanh_nghiep}</p>
+                          <div className="bg-white rounded-xl p-5 border-2 border-amber-200 shadow-sm">
+                            <p className="text-sm text-gray-800 leading-relaxed whitespace-pre-wrap">{evaluation.nhan_xet_doanh_nghiep}</p>
                           </div>
                         ) : (
-                          <div className="bg-white rounded-md p-3 border border-dashed border-yellow-300">
-                            <p className="text-sm text-gray-500 italic">Chưa có nhận xét từ doanh nghiệp</p>
+                          <div className="bg-white rounded-xl p-5 border-2 border-dashed border-amber-300">
+                            <p className="text-sm text-gray-500 italic text-center">⏳ Chưa có nhận xét từ doanh nghiệp</p>
                           </div>
                         )}
                       </div>
 
-                      {/* Batch Info */}
+                      {/* Batch Info - Enhanced */}
                       {evaluation.ten_dot && (
-                        <div className="text-xs text-gray-500 pt-2 border-t border-yellow-200">
-                          <span>Đợt thực tập: {evaluation.ten_dot}</span>
-                          {evaluation.thoi_gian_bat_dau_dot && evaluation.thoi_gian_ket_thuc_dot && (
-                            <span className="ml-4">
-                              ({new Date(evaluation.thoi_gian_bat_dau_dot).toLocaleDateString('vi-VN')} - {new Date(evaluation.thoi_gian_ket_thuc_dot).toLocaleDateString('vi-VN')})
-                            </span>
-                          )}
+                        <div className="flex items-center gap-2 pt-4 border-t-2 border-amber-200">
+                          <div className="flex-1 flex items-center gap-2 text-sm text-gray-700 bg-white px-4 py-2 rounded-lg">
+                            <Calendar className="w-4 h-4 text-amber-600" />
+                            <span className="font-semibold">Đợt:</span>
+                            <span>{evaluation.ten_dot}</span>
+                            {evaluation.thoi_gian_bat_dau_dot && evaluation.thoi_gian_ket_thuc_dot && (
+                              <span className="ml-4">
+                                ({new Date(evaluation.thoi_gian_bat_dau_dot).toLocaleDateString('vi-VN')} - {new Date(evaluation.thoi_gian_ket_thuc_dot).toLocaleDateString('vi-VN')})
+                              </span>
+                            )}
+                          </div>
                         </div>
                       )}
                     </div>
@@ -429,7 +473,8 @@ const TeacherCompanyEvaluationsPage: React.FC = () => {
           )}
         </div>
       </div>
-    </div>
+        </div>
+      </div>
     </div>
   );
 };
