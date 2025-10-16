@@ -284,20 +284,14 @@ const CompanyGuidePage: React.FC = () => {
                 <CheckCircle className="w-6 h-6 text-green-600 mr-2" />
                 Cách thức đánh giá trên hệ thống
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6">
                 <div className="space-y-3">
-                  <h4 className="font-medium text-green-800">Bước 1: Chấm điểm</h4>
+                  <h4 className="font-medium text-green-800">Viết nhận xét đánh giá</h4>
                   <ul className="text-sm text-gray-700 space-y-1">
                     <li>• Vào trang "Sinh viên thực tập"</li>
-                    <li>• Nhập điểm số từ 0-10 cho từng sinh viên</li>
-                    <li>• Hệ thống tự động lưu khi nhập xong</li>
-                  </ul>
-                </div>
-                <div className="space-y-3">
-                  <h4 className="font-medium text-green-800">Bước 2: Viết nhận xét</h4>
-                  <ul className="text-sm text-gray-700 space-y-1">
-                    <li>• Mô tả chi tiết về thái độ, năng lực</li>
+                    <li>• Mô tả chi tiết về thái độ, năng lực của sinh viên</li>
                     <li>• Nêu những điểm mạnh, điểm cần cải thiện</li>
+                    <li>• Hệ thống tự động lưu khi nhập xong</li>
                     <li>• Đề xuất hướng phát triển cho sinh viên</li>
                   </ul>
                 </div>
@@ -481,8 +475,7 @@ const CompanyGuidePage: React.FC = () => {
                 <div className="bg-white rounded-lg p-4">
                   <h4 className="font-medium text-amber-800 mb-2">Nội dung đánh giá bắt buộc:</h4>
                   <ul className="text-sm text-gray-700 space-y-1">
-                    <li>• Điểm số từ 0-10 (bắt buộc)</li>
-                    <li>• Nhận xét chi tiết về thái độ, năng lực</li>
+                    <li>• Nhận xét chi tiết về thái độ, năng lực (bắt buộc)</li>
                     <li>• Đề xuất cải thiện cho sinh viên</li>
                     <li>• Đánh giá khả năng làm việc trong tương lai</li>
                   </ul>

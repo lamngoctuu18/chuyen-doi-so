@@ -412,7 +412,7 @@ const MyInternsPage: React.FC = () => {
                         </div>
                         <div className="flex flex-col items-end gap-2">
                           {(() => {
-                            const hasEval = (drafts[student.id]?.diem ?? student.diem_thuc_tap) != null || ((drafts[student.id]?.nhan_xet ?? student.nhan_xet_doanh_nghiep) || '').trim();
+                            const hasEval = ((drafts[student.id]?.nhan_xet ?? student.nhan_xet_doanh_nghiep) || '').trim();
                             return (
                               <>
                                 <span className={`px-4 py-2 rounded-full text-sm font-semibold shadow-md ${hasEval ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : 'bg-gray-100 text-gray-700 border border-gray-200'}`}>
@@ -430,48 +430,6 @@ const MyInternsPage: React.FC = () => {
                       </div>
                       
                     <div className="space-y-3">
-                      {/* Modern Score Input */}
-                      <div className="flex items-center gap-4 p-4 bg-white/60 rounded-2xl border border-white/50 shadow-sm">
-                        <label className="text-base font-bold text-gray-800 min-w-[90px]">Điểm số:</label>
-                        <div className="flex items-center gap-3 flex-1">
-                          <div className="relative flex-1 max-w-[120px]">
-                            <input
-                              type="number"
-                              min={0}
-                              max={10}
-                              step={0.1}
-                              value={
-                                drafts[student.id]?.diem ?? (student.diem_thuc_tap ?? '')
-                              }
-                              onChange={(e) => {
-                                const v = e.currentTarget.value;
-                                setDrafts(prev => ({
-                                  ...prev,
-                                  [student.id]: { ...(prev[student.id] || {}), diem: v === '' ? null : Number(v) }
-                                }));
-                              }}
-                              onBlur={async (e) => {
-                                const val = e.currentTarget.value;
-                                if (val === '' || isNaN(Number(val))) return;
-                                try {
-                                  setSaving(String(student.id));
-                                  await companyInternshipAPI.updateStudentEvaluation(student.id, { diem_thuc_tap: Number(val) });
-                                  setStudents(prev => prev.map(s => s.id === student.id ? { ...s, diem_thuc_tap: Number(val) } : s));
-                                } catch (err) {
-                                  console.error(err);
-                                  alert('Cập nhật điểm thất bại');
-                                } finally {
-                                  setSaving(null);
-                                }
-                              }}
-                              className="w-24 border-2 border-gray-200 rounded-xl px-4 py-3 text-center text-lg font-bold bg-white focus:ring-4 focus:ring-yellow-200 focus:border-yellow-400 transition-all duration-200"
-                              placeholder="0-10"
-                            />
-                            <div className="text-lg font-bold text-gray-600">/10</div>
-                          </div>
-                        </div>
-                      </div>
-
                       {/* Modern Comment Input */}
                       <div className="p-4 bg-white/60 rounded-2xl border border-white/50 shadow-sm">
                         <label className="flex items-center gap-3 text-base font-bold text-gray-800 mb-3">
@@ -517,11 +475,6 @@ const MyInternsPage: React.FC = () => {
                       {/* Status Info */}
                       <div className="flex items-center justify-between text-xs text-gray-500 mt-3 pt-3 border-t border-yellow-200">
                         <div className="flex items-center gap-3">
-                          <span>
-                            {(drafts[student.id]?.diem ?? student.diem_thuc_tap) != null
-                              ? `Đã chấm điểm: ${(drafts[student.id]?.diem ?? student.diem_thuc_tap)}/10`
-                              : 'Chưa chấm điểm'}
-                          </span>
                           <span>
                             {((drafts[student.id]?.nhan_xet ?? student.nhan_xet_doanh_nghiep) || '').trim()
                               ? 'Đã có nhận xét'

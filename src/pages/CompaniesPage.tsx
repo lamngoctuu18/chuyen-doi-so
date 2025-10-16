@@ -162,32 +162,6 @@ const CompaniesPage: React.FC = () => {
               </button>
               
               <button
-                className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white rounded-2xl hover:bg-emerald-700 transition-all duration-300 shadow-lg"
-                onClick={async () => {
-                  try {
-                    const resp = await fetch('http://localhost:3001/api/doanh-nghiep/sync', {
-                      method: 'POST',
-                      headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-                    });
-                    const data = await resp.json();
-                    if (data.success) {
-                      alert(`Đồng bộ thành công: ${data.data.created} doanh nghiệp mới`);
-                      refetch(); // Refresh data
-                    } else {
-                      alert('Lỗi đồng bộ: ' + data.message);
-                    }
-                  } catch (e) {
-                    alert('Lỗi đồng bộ: ' + (e as Error).message);
-                  }
-                }}
-              >
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-                Đồng bộ từ SV
-              </button>
-              
-              <button
                 className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 transition-all duration-300 shadow-lg"
                 onClick={async () => {
                   try {
@@ -274,7 +248,7 @@ const CompaniesPage: React.FC = () => {
 
         {/* Modern Table Container */}
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 overflow-hidden mx-4">
-          <HorizontalScrollTable tableMinWidth="2320px" maxHeight="70vh">
+          <HorizontalScrollTable tableMinWidth="2520px" maxHeight="70vh">
         <thead className="bg-gray-50 sticky top-0 z-10">
           <tr>
             <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200" style={{ width: '50px' }}>
@@ -297,6 +271,9 @@ const CompaniesPage: React.FC = () => {
             </th>
             <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200" style={{ width: '150px' }}>
               Lĩnh vực
+            </th>
+            <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200" style={{ width: '200px' }}>
+              Vị trí tuyển dụng
                 </th>
                 <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200" style={{ width: '120px' }}>
                   Chức vụ LH
@@ -368,6 +345,11 @@ const CompaniesPage: React.FC = () => {
                   <td className="px-1 py-1 text-xs text-gray-600 border-r border-gray-200">
                     <div className="truncate" title={company.linhVucHoatDong || company.linh_vuc_hoat_dong}>
                       {company.linhVucHoatDong || company.linh_vuc_hoat_dong || '-'}
+                    </div>
+                  </td>
+                  <td className="px-1 py-1 text-xs text-gray-600 border-r border-gray-200">
+                    <div className="truncate" title={company.viTriTuyenDung || company.vi_tri_tuyen_dung}>
+                      {company.viTriTuyenDung || company.vi_tri_tuyen_dung || '-'}
                     </div>
                   </td>
                   <td className="px-1 py-1 text-xs text-gray-600 border-r border-gray-200">

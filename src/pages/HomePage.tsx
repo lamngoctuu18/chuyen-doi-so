@@ -579,7 +579,7 @@ const DefaultHomePage: React.FC = () => {
           <div className="w-32 h-1 bg-gradient-to-r from-orange-500 to-blue-400 mx-auto rounded-full mb-4"></div>
         </div>
 
-        {/* User Welcome Card */}
+        {/* User Welcome Card - Only show if logged in */}
         {user && (
           <div className="max-w-2xl mx-auto mb-16">
             <div className="relative">

@@ -4,6 +4,7 @@ import { useStudents } from '../hooks/useStudents';
 import { useDebounce } from '../hooks/useDebounce';
 import RegistrationPeriodModal from '../components/RegistrationPeriodModal';
 import HorizontalScrollTable from '../components/HorizontalScrollTable';
+import { refreshDashboardWithDelay } from '../utils/dashboardUtils';
 // import types if needed later
 
 const StudentsPage: React.FC = () => {
@@ -301,6 +302,55 @@ const StudentsPage: React.FC = () => {
               <button
                 type="button"
                 onClick={async () => {
+                  if (!confirm('🤖 Phân công tự động Giảng viên và Doanh nghiệp cho tất cả sinh viên chưa phân công?\n\n⚠️ Lưu ý: Thao tác này không thể hoàn tác!')) {
+                    return;
+                  }
+
+                  try {
+                    const token = localStorage.getItem('token');
+                    const response = await fetch('http://localhost:3001/api/auto-assignment', {
+                      method: 'POST',
+                      headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                      }
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                      const { teachers, companies, totalStudents } = result.data;
+                      alert(`✅ Phân công tự động thành công!\n\n` +
+                        `📊 Tổng sinh viên: ${totalStudents}\n\n` +
+                        `👨‍🏫 Giảng viên:\n` +
+                        `  • Đã phân công: ${teachers.assigned}\n` +
+                        `  • Đã có trước: ${teachers.skipped}\n` +
+                        `  • Lỗi: ${teachers.errors.length}\n\n` +
+                        `🏢 Doanh nghiệp:\n` +
+                        `  • Đã phân công: ${companies.assigned}\n` +
+                        `  • Đã có trước: ${companies.skipped}\n` +
+                        `  • Lỗi: ${companies.errors.length}`
+                      );
+                      
+                      // Refresh data
+                      refetch();
+                      refreshDashboardWithDelay();
+                    } else {
+                      alert('❌ Lỗi: ' + result.message);
+                    }
+                  } catch (error) {
+                    alert('❌ Lỗi kết nối: ' + (error as Error).message);
+                  }
+                }}
+                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg font-semibold"
+              >
+                <span className="mr-2">🤖</span>
+                Phân công tự động
+              </button>
+
+              <button
+                type="button"
+                onClick={async () => {
                   try {
                     // Use sorted and filtered data from current view
                     const exportData = getSortedStudents();
@@ -393,13 +443,6 @@ const StudentsPage: React.FC = () => {
                 )}
               </div>
             </button>
-
-            <a
-              href="/import-students"
-              className="px-4 py-2 text-sm border border-blue-600 text-blue-700 rounded-lg bg-blue-50 hover:bg-blue-100"
-            >
-              Import Excel
-            </a>
           </div>
         </div>
       </div>

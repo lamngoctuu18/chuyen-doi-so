@@ -3,8 +3,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { LogOut, User, Menu, X, ChevronDown, Settings, MapPin, Phone, Mail, ChevronRight } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import daiNamLogo from '../assets/fitdnu_logo.png';
-import NotificationDropdown from './notifications/NotificationDropdown';
-import type { Notification } from '../types/notification';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, logout, isAuthenticated } = useAuth();
@@ -43,43 +41,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const handleLogout = () => {
     logout();
     navigate('/');
-  };
-
-  const handleNotificationClick = (notification: Notification) => {
-    // Navigate based on user role and notification type
-    if (notification.actionUrl) {
-      navigate(notification.actionUrl);
-    } else {
-      // Default navigation based on user role
-      switch (user?.role) {
-        case 'sinh-vien':
-          if (notification.actionType === 'report_deadline' || notification.actionType === 'report_submission') {
-            navigate('/student/submissions');
-          } else if (notification.actionType === 'registration') {
-            navigate('/internship-registration');
-          } else {
-            navigate('/');
-          }
-          break;
-        case 'giang-vien':
-          if (notification.actionType === 'report_submission') {
-            navigate('/reports');
-          } else if (notification.actionType === 'assignment') {
-            navigate('/company-evaluations');
-          } else {
-            navigate('/reports');
-          }
-          break;
-        case 'doanh-nghiep':
-          navigate('/my-interns');
-          break;
-        case 'admin':
-          navigate('/admin/reports');
-          break;
-        default:
-          navigate('/');
-      }
-    }
   };
 
   const navigationItems = [
@@ -174,11 +135,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
             {/* Right side - User section */}
             <div className="hidden lg:flex items-center space-x-4 flex-shrink-0 ml-auto">
-              {/* Notification Dropdown - Only show when authenticated */}
-              {isAuthenticated && (
-                <NotificationDropdown onNotificationClick={handleNotificationClick} />
-              )}
-              
               {/* User Profile Section */}
               {!isAuthenticated ? (
                 <Link
@@ -294,11 +250,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 </Link>
               ) : (
                 <>
-                  {/* Mobile Notification Dropdown */}
-                  <div className="lg:hidden">
-                    <NotificationDropdown onNotificationClick={handleNotificationClick} />
-                  </div>
-                  
                   {/* Mobile User Avatar */}
                   <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center text-white font-semibold text-xs">
                     {user?.name?.charAt(0)?.toUpperCase() || 'U'}

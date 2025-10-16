@@ -130,10 +130,10 @@ const ImportStudentsPage = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Import Danh sách Sinh viên
+            Import Danh sách Giảng viên
           </h1>
           <p className="text-gray-600">
-            Tải lên file Excel để import danh sách tài khoản sinh viên hàng loạt
+            Tải lên file Excel để import danh sách tài khoản giảng viên hàng loạt
           </p>
         </div>
 
@@ -185,7 +185,7 @@ const ImportStudentsPage = () => {
             {/* Import */}
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                2. Import sinh viên
+                2. Import giảng viên
               </h2>
               
               <button
@@ -255,7 +255,7 @@ const ImportStudentsPage = () => {
                 Tải template
               </button>
               <p className="mt-2 text-sm text-gray-500">
-                Tải file Excel mẫu để điền thông tin sinh viên
+                Tải file Excel mẫu để điền thông tin giảng viên
               </p>
             </div>
 
@@ -269,7 +269,7 @@ const ImportStudentsPage = () => {
                 <div>
                   <h4 className="font-medium text-gray-900">Các cột bắt buộc:</h4>
                   <ul className="mt-1 list-disc list-inside space-y-1">
-                    <li>Mã sinh viên</li>
+                    <li>Mã giảng viên</li>
                     <li>Họ và tên</li>
                     <li>Mật khẩu</li>
                   </ul>
@@ -279,7 +279,6 @@ const ImportStudentsPage = () => {
                   <h4 className="font-medium text-gray-900">Các cột tùy chọn:</h4>
                   <ul className="mt-1 list-disc list-inside space-y-1">
                     <li>Email (tự động tạo nếu trống)</li>
-                    <li>Lớp</li>
                     <li>Khoa (mặc định: CNTT)</li>
                     <li>Số điện thoại</li>
                   </ul>
